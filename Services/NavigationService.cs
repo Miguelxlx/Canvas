@@ -1,4 +1,6 @@
 using Microsoft.Maui.Controls;
+using CanvasRemake.Models;
+using CanvasRemake.Views;
 
 namespace CanvasRemake.Services
 {
@@ -15,5 +17,18 @@ namespace CanvasRemake.Services
                 await shell.Navigation.PopAsync();
             }
         }
+
+        public async Task NavigateToAddModule(string courseId)
+        {
+            var route = $"{nameof(AddModuleView)}?courseId={courseId}";
+            await Shell.Current.GoToAsync(route);
+        }
+
+        public async Task NavigateToAddAssignment(string courseId)
+        {
+            var route = $"{nameof(AddAssignmentView)}?courseId={courseId}";
+            await Shell.Current.GoToAsync(route);
+        }
+
     }
 }

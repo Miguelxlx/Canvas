@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CanvasRemake.Models;
+using CanvasRemake.Views;
 
 namespace CanvasRemake
 {
@@ -15,6 +16,8 @@ namespace CanvasRemake
 		{
 			InitializeComponent();
 			ServiceProvider = serviceProvider;
+			Routing.RegisterRoute(nameof(AddModuleView), typeof(AddModuleView));
+			Routing.RegisterRoute(nameof(AddAssignmentView), typeof(AddAssignmentView));
 			MainPage = new AppShell();
 
 			Courses = new ObservableCollection<Course>
@@ -32,8 +35,8 @@ namespace CanvasRemake
 			};
 
 			App.Courses[0].Roster.Add(App.Students[0]);
-			//due date today
 			App.Courses[0].Assignments.Add(new Assignment("Assignment 1", "Assignment 1 description", 100, DateTime.Today));
+			App.Courses[0].Modules.Add(new Module("Module 1", "Module 1 description"));
 
 			App.LoggedInStudent = App.Students[0];
 		}

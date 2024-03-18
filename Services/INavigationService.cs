@@ -1,8 +1,11 @@
+using System.Threading.Tasks;
+
 namespace CanvasRemake.Services
 {
     public interface INavigationService
     {
         Task GoBackAsync();
-        // You can add more navigation methods here as needed
+        Task NavigateToAddModule(string courseId);
+        Task NavigateToAddAssignment(string courseId);
     }
 }

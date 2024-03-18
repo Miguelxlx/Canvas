@@ -1,29 +1,32 @@
-using System;
-using System.Windows.Input;
+// AddAssignmentViewModel
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CanvasRemake.Models;
-using Microsoft.Maui.Controls;
+using CanvasRemake.Services;
 
 namespace CanvasRemake.ViewModels
 {
-    public class AddAssignmentViewModel : BindableObject
+    public partial class AddAssignmentViewModel : ObservableObject
     {
+        private readonly INavigationService _navigationService;
         private Course _course;
 
-        public ICommand SaveCommand { get; }
+        [ObservableProperty] private string assignmentName = string.Empty;
+        [ObservableProperty] private string assignmentDescription = string.Empty;
+        [ObservableProperty] private double assignmentPoints;
+        [ObservableProperty] private DateTime assignmentDueDate = DateTime.Now;
 
-        // Properties for data binding
-        public string AssignmentName { get; set; } = string.Empty;
-        public string AssignmentDescription { get; set; } = string.Empty;
-        public double AssignmentPoints { get; set; }
-        public DateTime AssignmentDueDate { get; set; } = DateTime.Now;
-
-        public AddAssignmentViewModel(Course course)
+        public AddAssignmentViewModel(Course course, INavigationService navigationService)
         {
             _course = course;
-            SaveCommand = new Command(OnSave);
+            _navigationService = navigationService;
+            SaveCommand = new RelayCommand(OnSave);
         }
 
-        private void OnSave()
+        public void Initialize(Course course) => _course = course;
+        public IRelayCommand SaveCommand { get; }
+
+        private async void OnSave()
         {
             var assignment = new Assignment
             {
@@ -32,12 +35,8 @@ namespace CanvasRemake.ViewModels
                 TotalAvailablePoints = AssignmentPoints,
                 DueDate = AssignmentDueDate
             };
-
             _course.Assignments.Add(assignment);
-
-            // Publish a message indicating save is complete
-            MessagingCenter.Send(this, "SaveCompleted");
+            await _navigationService.GoBackAsync();
         }
-
     }
 }

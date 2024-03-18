@@ -1,22 +1,44 @@
 using CanvasRemake.Models;
 using CanvasRemake.ViewModels;
+using CanvasRemake.Services;
 using Microsoft.Maui.Controls;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CanvasRemake.Views
 {
+    [QueryProperty(nameof(CourseId), "courseId")]
     public partial class AddAssignmentView : ContentPage
     {
-        public AddAssignmentView(Course course)
+        public string CourseId
+        {
+            set
+            {
+                LoadCourse(value);
+            }
+        }
+
+        public AddAssignmentView()
         {
             InitializeComponent();
-            BindingContext = new AddAssignmentViewModel(course);
+            var navigationService = App.ServiceProvider.GetService<INavigationService>();
+            BindingContext = new AddAssignmentViewModel(null, navigationService);
+        }
 
-            MessagingCenter.Subscribe<AddAssignmentViewModel>(this, "SaveCompleted", async (sender) =>
+        private async void LoadCourse(string courseId)
+        {
+            var course = await FetchCourseById(courseId);
+            if (course != null && BindingContext is AddAssignmentViewModel vm)
             {
-                await MainThread.InvokeOnMainThreadAsync(() => Navigation.PopAsync());
-            });
+                vm.Initialize(course);
+            }
+        }
+
+
+        private async Task<Course> FetchCourseById(string courseId)
+        {
+            var course = App.Courses.FirstOrDefault(c => c.Code == courseId);
+
+            return course;
         }
     }
-
-
 }

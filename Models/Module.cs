@@ -12,5 +12,12 @@ namespace CanvasRemake.Models
         {
             ContentItems = new ObservableCollection<ContentItem>();
         }
+
+        public Module(string name, string description)
+        {
+            Name = name;
+            Description = description;
+            ContentItems = new ObservableCollection<ContentItem>();
+        }
     }
 }

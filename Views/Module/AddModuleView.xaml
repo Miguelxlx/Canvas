@@ -1,30 +1,24 @@
 <!-- AddModuleView.xaml -->
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CanvasRemake.Views.AddModuleView"
-             Title="Add Module">
-
+             xmlns:vm="clr-namespace:CanvasRemake.ViewModels"
+             x:Class="CanvasRemake.Views.AddModuleView">
     <StackLayout Padding="20">
-        <Entry x:Name="ModuleNameEntry" Placeholder="Module Name" />
-        <Editor x:Name="ModuleDescriptionEditor" Placeholder="Module Description" AutoSize="TextChanges" />
-
-        <ListView x:Name="ContentItemListView" ItemsSource="{Binding ContentItems}">
+        <Entry Placeholder="Module Name" Text="{Binding ModuleName}" />
+        <Editor Placeholder="Module Description" Text="{Binding ModuleDescription}" />
+        <ListView ItemsSource="{Binding ContentItems}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal">
-                            <Label Text="{Binding Name}" VerticalOptions="Center" />
-                            <Button Text="Remove" Clicked="OnRemoveContentItemClicked" CommandParameter="{Binding}" HorizontalOptions="EndAndExpand" />
+                        <StackLayout>
+                            <Entry Placeholder="Content Item Name" Text="{Binding Name}" />
+                            <Editor Placeholder="Content Item Description" Text="{Binding Description}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-        <Entry x:Name="ContentItemNameEntry" Placeholder="Content Item Name" />
-        <Editor x:Name="ContentItemDescriptionEditor" Placeholder="Content Item Description" AutoSize="TextChanges" />
-
-        <Button Text="Add Content Item" Clicked="OnAddContentItemClicked" />
-        <Button Text="Save" Clicked="OnSaveClicked" />
+        <Button Text="Add Content Item" Command="{Binding AddContentItemCommand}" />
+        <Button Text="Save" Command="{Binding SaveCommand}" />
     </StackLayout>
 </ContentPage>

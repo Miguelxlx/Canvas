@@ -8,7 +8,7 @@ namespace CanvasRemake.ViewModels
 {
     public partial class AddCourseViewModel : ObservableObject
     {
-        private readonly INavigationService _navigationService; // Add this line
+        private readonly INavigationService _navigationService;
         [ObservableProperty]
         private string courseName;
 
@@ -20,7 +20,7 @@ namespace CanvasRemake.ViewModels
 
         public AddCourseViewModel(INavigationService navigationService)
         {
-            _navigationService = navigationService; // Initialize the field
+            _navigationService = navigationService;
             SaveCommand = new RelayCommand(OnSave);
         }
 
@@ -30,10 +30,7 @@ namespace CanvasRemake.ViewModels
 
         private async void OnSave()
         {
-            // Create a new course object
             var newCourse = new Course(CourseName, CourseCode, CourseDescription);
-
-            // Assuming App.Courses is an ObservableCollection<Course>
             App.Courses.Add(newCourse);
 
             await _navigationService.GoBackAsync();

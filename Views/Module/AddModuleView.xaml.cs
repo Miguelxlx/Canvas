@@ -1,49 +1,47 @@
-using System;
 using CanvasRemake.Models;
+using CanvasRemake.ViewModels;
+using CanvasRemake.Services;
+using Microsoft.Maui.Controls;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CanvasRemake.Views
 {
+    [QueryProperty(nameof(CourseId), "courseId")]
     public partial class AddModuleView : ContentPage
     {
-        private Module _module;
+        private string _courseId;
+        public string CourseId
+        {
+            set
+            {
+                _courseId = value;
+                LoadCourse(_courseId);
+            }
+            get
+            {
+                return _courseId;
+            }
+        }
 
-        public AddModuleView(Module module)
+        public AddModuleView()
         {
             InitializeComponent();
-            _module = module;
-            BindingContext = _module;
-
-            ModuleNameEntry.Text = _module.Name;
-            ModuleDescriptionEditor.Text = _module.Description;
+            BindingContext = new AddModuleViewModel(null, App.ServiceProvider.GetService<INavigationService>());
         }
 
-        private async void OnAddContentItemClicked(object sender, EventArgs e)
+        private async void LoadCourse(string courseId)
         {
-            var contentItem = new ContentItem
+            var course = await FetchCourseById(courseId);
+            if (course != null && BindingContext is AddModuleViewModel vm)
             {
-                Name = ContentItemNameEntry.Text,
-                Description = ContentItemDescriptionEditor.Text
-            };
-
-            _module.ContentItems.Add(contentItem);
-
-            ContentItemNameEntry.Text = string.Empty;
-            ContentItemDescriptionEditor.Text = string.Empty;
-        }
-        private void OnRemoveContentItemClicked(object sender, EventArgs e)
-        {
-            var contentItem = (ContentItem)((Button)sender).CommandParameter;
-            _module.ContentItems.Remove(contentItem);
+                vm.Initialize(course);
+            }
         }
 
-        private async void OnSaveClicked(object sender, EventArgs e)
+        private async Task<Course> FetchCourseById(string courseId)
         {
-            _module.Name = ModuleNameEntry.Text;
-            _module.Description = ModuleDescriptionEditor.Text;
-
-            MessagingCenter.Send(this, "ModuleAdded");
-
-            await Navigation.PopAsync(true);
+            var course = App.Courses.FirstOrDefault(c => c.Code == courseId);
+            return course;
         }
     }
 }
