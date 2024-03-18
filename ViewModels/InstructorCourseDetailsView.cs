@@ -41,7 +41,5 @@ namespace CanvasRemake.ViewModels
 
             _navigationService.NavigateToAddAssignment(_course.Code.ToString());
         }
-
-
     }
 }

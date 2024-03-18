@@ -1,4 +1,8 @@
+using CanvasRemake.ViewModels;
 using CanvasRemake.Models;
+using CanvasRemake.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui.Controls;
 
 namespace CanvasRemake.Views
 {
@@ -7,16 +11,8 @@ namespace CanvasRemake.Views
         public StudentCourseDetailsView(Course course)
         {
             InitializeComponent();
-            BindingContext = course;
-        }
-
-        private async void OnAssignmentSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (e.SelectedItem != null)
-            {
-                var assignment = (Assignment)e.SelectedItem;
-                await Navigation.PushAsync(new SubmitAssignmentView(assignment));
-            }
+            var navigationService = App.ServiceProvider.GetService<INavigationService>();
+            BindingContext = new StudentCourseDetailsViewModel(course, navigationService);
         }
     }
 }

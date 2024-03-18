@@ -10,7 +10,6 @@
           ItemsSource="{Binding EnrolledCourses}"
           ItemSelected="OnCourseSelected"
           HasUnevenRows="True"
-          HeightRequest="200"
           Margin="10">
     <ListView.ItemTemplate>
     <DataTemplate>
