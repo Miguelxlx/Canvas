@@ -1,0 +1,13 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CanvasRemake.ViewModels"
+             x:Class="CanvasRemake.Views.AddAssignmentView">
+
+    <StackLayout Padding="20">
+        <Entry Placeholder="Assignment Name" Text="{Binding AssignmentName}" />
+        <Editor Placeholder="Assignment Description" Text="{Binding AssignmentDescription}" />
+        <Entry Placeholder="Assignment Points" Keyboard="Numeric" Text="{Binding AssignmentPoints}" />
+        <DatePicker Date="{Binding AssignmentDueDate}" />
+        <Button Text="Save" Command="{Binding SaveCommand}" />
+    </StackLayout>
+</ContentPage>

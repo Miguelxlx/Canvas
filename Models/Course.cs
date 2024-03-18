@@ -7,25 +7,22 @@ namespace CanvasRemake.Models
         public string? Name { get; set; }
         public string? Code { get; set; }
         public string? Description { get; set; }
-        public List<Student> Roster { get; set; }
-        public List<Assignment> Assignments { get; set; }
-        public List<Module> Modules { get; set; }
+        public ObservableCollection<Student> Roster { get; set; }
+        public ObservableCollection<Assignment> Assignments { get; set; }
+        public ObservableCollection<Module> Modules { get; set; }
 
         public Course()
         {
-            Roster = new List<Student>();
-            Assignments = new List<Assignment>();
-            Modules = new List<Module>();
+            Roster = new ObservableCollection<Student>();
+            Assignments = new ObservableCollection<Assignment>();
+            Modules = new ObservableCollection<Module>();
         }
 
-        public Course(string? name, string? code, string? description)
+        public Course(string? name, string? code, string? description) : this()
         {
             Name = name;
             Code = code;
             Description = description;
-            Roster = new List<Student>();
-            Assignments = new List<Assignment>();
-            Modules = new List<Module>();
         }
     }
 }
