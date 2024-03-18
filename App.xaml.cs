@@ -5,15 +5,16 @@ namespace CanvasRemake
 {
 	public partial class App : Application
 	{
+		public static IServiceProvider ServiceProvider { get; set; }
 		public static ObservableCollection<Course> Courses { get; set; } = new ObservableCollection<Course>();
 		public static ObservableCollection<Student> Students { get; set; } = new ObservableCollection<Student>();
 
 		public static Student LoggedInStudent { get; set; }
 
-		public App()
+		public App(IServiceProvider serviceProvider)
 		{
 			InitializeComponent();
-
+			ServiceProvider = serviceProvider;
 			MainPage = new AppShell();
 
 			Courses = new ObservableCollection<Course>

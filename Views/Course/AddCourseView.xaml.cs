@@ -1,6 +1,7 @@
-using System;
-using System.Collections.ObjectModel;
-using CanvasRemake.Models;
+using CanvasRemake.ViewModels;
+using CanvasRemake.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui.Controls;
 
 namespace CanvasRemake.Views
 {
@@ -9,22 +10,8 @@ namespace CanvasRemake.Views
         public AddCourseView()
         {
             InitializeComponent();
-        }
-
-        private async void OnSaveButtonClicked(object sender, EventArgs e)
-        {
-            string courseName = CourseNameEntry.Text;
-            string courseCode = CourseCodeEntry.Text;
-            string courseDescription = CourseDescriptionEntry.Text;
-
-            // Create a new course object
-            Course newCourse = new Course(courseName, courseCode, courseDescription);
-
-            // Add the new course to the App.Courses collection
-            App.Courses.Add(newCourse);
-
-            // Navigate back to the previous page after adding the course
-            await Navigation.PopAsync();
+            var navigationService = App.ServiceProvider.GetService<INavigationService>();
+            BindingContext = new AddCourseViewModel(navigationService);
         }
     }
 }

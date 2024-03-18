@@ -4,8 +4,8 @@ namespace CanvasRemake.Models
 {
     public class Assignment
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
         public double TotalAvailablePoints { get; set; }
         public DateTime DueDate { get; set; }
         public bool IsSubmitted { get; set; }

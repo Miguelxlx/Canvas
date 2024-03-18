@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace CanvasRemake;
+﻿using CanvasRemake;
+using CanvasRemake.Services;
+using Microsoft.Maui.Hosting;
 
 public static class MauiProgram
 {
@@ -15,10 +15,12 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-#if DEBUG
-		builder.Logging.AddDebug();
-#endif
+		builder.Services.AddSingleton<INavigationService, NavigationService>();
 
-		return builder.Build();
+		var app = builder.Build();
+		App.ServiceProvider = app.Services;
+
+		return app;
 	}
+
 }

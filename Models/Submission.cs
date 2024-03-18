@@ -4,7 +4,7 @@ namespace CanvasRemake.Models
     {
         public int Id { get; set; }
         public int AssignmentId { get; set; }
-        public string StudentId { get; set; }
+        public string StudentId { get; set; } = string.Empty;
         public DateTime SubmissionDate { get; set; }
         // Add any other properties related to the submission
     }

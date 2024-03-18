@@ -12,8 +12,8 @@ namespace CanvasRemake.ViewModels
         public ICommand SaveCommand { get; }
 
         // Properties for data binding
-        public string AssignmentName { get; set; }
-        public string AssignmentDescription { get; set; }
+        public string AssignmentName { get; set; } = string.Empty;
+        public string AssignmentDescription { get; set; } = string.Empty;
         public double AssignmentPoints { get; set; }
         public DateTime AssignmentDueDate { get; set; } = DateTime.Now;
 
