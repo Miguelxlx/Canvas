@@ -1,0 +1,18 @@
+# Directories # 
+bin/ 
+obj/ 
+.vs/ 
+.vscode/ 
+packages/ 
+ 
+# Files # 
+*.user 
+*.userosscache 
+*.suo 
+*.userprefs 
+*.dll 
+*.exe 
+*.pdb 
+*.cache 
+*.csproj.user 
+.DS_Store 

@@ -1,0 +1,22 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CanvasRemake.MainPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Text="Welcome to Canvas Remake"
+               FontSize="24"
+               HorizontalOptions="Center"
+               Margin="0,20,0,0" />
+
+        <StackLayout Grid.Row="1" Spacing="20" Padding="20">
+            <Button Text="Student View" Clicked="OnStudentViewClicked" />
+            <Button Text="Instructor View" Clicked="OnInstructorViewClicked" />
+        </StackLayout>
+    </Grid>
+
+</ContentPage>

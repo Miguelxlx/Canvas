@@ -1,0 +1,28 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CanvasRemake.Views.StudentCourseDetailsView"
+             Title="{Binding Name}">
+    <StackLayout Padding="20">
+        <Label Text="{Binding Name}" FontSize="24" />
+        <Label Text="{Binding Code}" FontSize="18" />
+        <Label Text="{Binding Description}" FontSize="16" />
+
+        <Label Text="Modules" FontSize="20" Margin="0,20,0,0" />
+        <ListView ItemsSource="{Binding Modules}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}" Detail="{Binding Description}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Label Text="Assignments" FontSize="20" Margin="0,20,0,0" />
+        <ListView ItemsSource="{Binding Assignments}" ItemSelected="OnAssignmentSelected">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}" Detail="{Binding DueDate, StringFormat='Due: {0:d}'}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

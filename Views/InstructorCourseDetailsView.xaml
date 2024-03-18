@@ -1,0 +1,47 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CanvasRemake.Views.InstructorCourseDetailsView"
+             Title="{Binding Name}">
+
+    <StackLayout Padding="0">
+        <!-- ... -->
+
+        <Button Text="Add Module" Clicked="OnAddModuleClicked" Margin="0,10,0,0" />
+        <Button Text="Add Assignment" Clicked="OnAddAssignmentClicked" Margin="0,10,0,0" />
+        <Label Text="Modules" FontSize="20" Margin="0,20,0,0" />
+        <ListView x:Name="ModuleListView" ItemsSource="{Binding Modules}" HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="10">
+                            <Label Text="{Binding Name}" FontAttributes="Bold" />
+                            <Label Text="{Binding Description}" />
+
+                            <ListView ItemsSource="{Binding ContentItems}" HasUnevenRows="True">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Padding="10,0,0,0">
+                                                <Label Text="{Binding Name}" />
+                                                <Label Text="{Binding Description}" FontSize="Small" />
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            
+        </ListView>
+        <Label Text="Assignments" FontSize="20"/>
+        <ListView ItemsSource="{Binding Assignments}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}" Detail="{Binding DueDate, StringFormat='Due: {0:d}'}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>
