@@ -10,6 +10,7 @@ namespace CanvasRemake.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly Course _course;
+
         public StudentCourseDetailsViewModel(Course course, INavigationService navigationService)
         {
             _course = course;

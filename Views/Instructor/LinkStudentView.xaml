@@ -2,15 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CanvasRemake.Views.LinkStudentsView"
              Title="Link Students to Course">
-
     <StackLayout Padding="20">
         <Label Text="Enter Course Code" FontSize="18" />
-        <Entry x:Name="CourseCodeEntry" Placeholder="Course Code" />
-
+        <Entry Text="{Binding CourseCode}" Placeholder="Course Code" />
         <Label Text="Enter Student ID" FontSize="18" />
-        <Entry x:Name="StudentIdEntry" Placeholder="Student ID" />
-
-        <Button Text="Link Student" Clicked="OnLinkStudentClicked" Margin="0,20,0,0" />
+        <Entry Text="{Binding StudentId}" Placeholder="Student ID" />
+        <Button Text="Link Student" Command="{Binding LinkStudentCommand}" Margin="0,20,0,0" />
     </StackLayout>
-
 </ContentPage>

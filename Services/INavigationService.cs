@@ -12,6 +12,8 @@ namespace CanvasRemake.Services
         Task NavigateToAddCourse();
         Task NavigateToLinkStudents();
         Task NavigateToInstructorCourseDetails(Course course);
+        Task NavigateToStudentCourseDetails(Course course);
+
 
 
     }

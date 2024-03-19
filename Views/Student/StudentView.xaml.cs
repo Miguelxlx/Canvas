@@ -1,32 +1,27 @@
-using System;
-using System.Collections.ObjectModel;
+using CanvasRemake.ViewModels;
+using CanvasRemake.Services;
+using Microsoft.Extensions.DependencyInjection;
 using CanvasRemake.Models;
 
 namespace CanvasRemake.Views
 {
     public partial class StudentView : ContentPage
     {
-        public ObservableCollection<Course> EnrolledCourses { get; set; }
+        private INavigationService _navigationService;
 
         public StudentView(Student student)
         {
             InitializeComponent();
-
-            EnrolledCourses = new ObservableCollection<Course>(
-                App.Courses.Where(c => c.Roster.Contains(student))
-            );
-
-            CourseListView.ItemsSource = EnrolledCourses;
+            _navigationService = App.ServiceProvider.GetService<INavigationService>();
+            BindingContext = new StudentViewModel(student, _navigationService);
         }
-
 
         private async void OnCourseSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            //debug statement
-            Console.WriteLine("Course selected");
             if (e.SelectedItem != null)
             {
-                await Navigation.PushAsync(new StudentCourseDetailsView((Course)e.SelectedItem));
+                var course = (Course)e.SelectedItem;
+                await _navigationService.NavigateToStudentCourseDetails(course);
             }
         }
     }

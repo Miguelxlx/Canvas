@@ -4,9 +4,9 @@ namespace CanvasRemake.Models
 {
     public class Course
     {
-        public string? Name { get; set; }
-        public string? Code { get; set; }
-        public string? Description { get; set; }
+        public string? Name { get; set; } = string.Empty;
+        public string? Code { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
         public ObservableCollection<Student> Roster { get; set; }
         public ObservableCollection<Assignment> Assignments { get; set; }
         public ObservableCollection<Module> Modules { get; set; }
