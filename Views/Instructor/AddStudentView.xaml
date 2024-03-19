@@ -2,19 +2,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CanvasRemake.Views.AddStudentView"
              Title="Add Student">
-
     <StackLayout Padding="20">
         <Label Text="Student Name" />
-        <Entry x:Name="StudentNameEntry" />
-
+        <Entry Text="{Binding StudentName}" />
         <Label Text="Student ID" />
-        <Entry x:Name="StudentIDEntry" />
-
+        <Entry Text="{Binding StudentID}" />
         <Label Text="Student Classifications" />
-        <Entry x:Name="StudentClassificationEntry" />
-   
-
-        <Button Text="Save" Clicked="OnSaveClicked" Margin="0,20,0,0" />
+        <Entry Text="{Binding StudentClassification}" />
+        <Button Text="Save" Command="{Binding SaveCommand}" Margin="0,20,0,0" />
     </StackLayout>
-
 </ContentPage>

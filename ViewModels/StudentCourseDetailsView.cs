@@ -15,7 +15,6 @@ namespace CanvasRemake.ViewModels
             _course = course;
             _navigationService = navigationService;
         }
-
         public Course Course => _course;
     }
 }

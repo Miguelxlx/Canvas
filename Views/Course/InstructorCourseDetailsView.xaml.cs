@@ -6,13 +6,21 @@ using Microsoft.Maui.Controls;
 
 namespace CanvasRemake.Views
 {
+    [QueryProperty("Course", "course")]
     public partial class InstructorCourseDetailsView : ContentPage
     {
-        public InstructorCourseDetailsView(Course course)
+        public Course Course { get; set; }
+
+        public InstructorCourseDetailsView()
         {
             InitializeComponent();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
             var navigationService = App.ServiceProvider.GetService<INavigationService>();
-            BindingContext = new InstructorCourseDetailsViewModel(course, navigationService);
+            BindingContext = new InstructorCourseDetailsViewModel(Course, navigationService);
         }
     }
 }

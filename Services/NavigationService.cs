@@ -30,5 +30,28 @@ namespace CanvasRemake.Services
             await Shell.Current.GoToAsync(route);
         }
 
+        public async Task NavigateToAddStudent()
+        {
+            await Shell.Current.GoToAsync(nameof(AddStudentView));
+        }
+
+        public async Task NavigateToAddCourse()
+        {
+            await Shell.Current.GoToAsync(nameof(AddCourseView));
+        }
+
+        public async Task NavigateToLinkStudents()
+        {
+            await Shell.Current.GoToAsync(nameof(LinkStudentsView));
+        }
+
+        public async Task NavigateToInstructorCourseDetails(Course course)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                { "course", course }
+            };
+            await Shell.Current.GoToAsync($"{nameof(InstructorCourseDetailsView)}", parameters);
+        }
     }
 }

@@ -18,6 +18,12 @@ namespace CanvasRemake
 			ServiceProvider = serviceProvider;
 			Routing.RegisterRoute(nameof(AddModuleView), typeof(AddModuleView));
 			Routing.RegisterRoute(nameof(AddAssignmentView), typeof(AddAssignmentView));
+			Routing.RegisterRoute(nameof(AddCourseView), typeof(AddCourseView));
+			Routing.RegisterRoute(nameof(AddStudentView), typeof(AddStudentView));
+			Routing.RegisterRoute(nameof(LinkStudentsView), typeof(LinkStudentsView));
+			Routing.RegisterRoute(nameof(InstructorCourseDetailsView), typeof(InstructorCourseDetailsView));
+			Routing.RegisterRoute(nameof(StudentCourseDetailsView), typeof(StudentCourseDetailsView));
+
 			MainPage = new AppShell();
 
 			Courses = new ObservableCollection<Course>

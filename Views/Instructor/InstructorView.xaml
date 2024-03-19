@@ -1,18 +1,16 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:CanvasRemake"
              x:Class="CanvasRemake.Views.InstructorView"
              Title="Instructor View">
-
     <StackLayout Padding="20">
-        <Button Text="Add Student" Clicked="OnAddStudentClicked" />
-        <Button Text="Add Course" Clicked="OnAddCourseClicked" />
-        <Button Text="Link Students to Course" Clicked="OnLinkStudentsClicked" />
-
+        <Button Text="Add Student" Command="{Binding AddStudentCommand}" />
+        <Button Text="Add Course" Command="{Binding AddCourseCommand}" />
+        <Button Text="Link Students to Course" Command="{Binding LinkStudentsCommand}" />
         <Label Text="Courses" FontSize="24" />
-        <ListView x:Name="CourseListView"
-                  ItemsSource="{Binding Source={x:Static local:App.Courses}}"
-                  ItemSelected="OnCourseSelected">
+        <ListView ItemsSource="{Binding Courses}"
+                SelectedItem="{Binding SelectedCourse, Mode=TwoWay}"
+                SelectionMode="Single"
+                ItemSelected="OnCourseSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -24,10 +22,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
         <Label Text="Students" FontSize="24" />
-        <ListView x:Name="StudentListView"
-                  ItemsSource="{Binding Source={x:Static local:App.Students}}">
+        <ListView ItemsSource="{Binding Students}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

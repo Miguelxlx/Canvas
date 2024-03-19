@@ -30,10 +30,21 @@ namespace CanvasRemake.ViewModels
 
         private async void OnSave()
         {
-            var newCourse = new Course(CourseName, CourseCode, CourseDescription);
-            App.Courses.Add(newCourse);
+            if (!IsCourseCodeExists(CourseCode))
+            {
+                var newCourse = new Course(CourseName, CourseCode, CourseDescription);
+                App.Courses.Add(newCourse);
+                await _navigationService.GoBackAsync();
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "Course Code already exists", "OK");
+            }
+        }
 
-            await _navigationService.GoBackAsync();
+        private bool IsCourseCodeExists(string courseCode)
+        {
+            return App.Courses.Any(course => course.Code == courseCode);
         }
     }
 }
