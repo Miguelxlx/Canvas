@@ -22,7 +22,16 @@
                   ItemSelected="OnAssignmentSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Name}" Detail="{Binding DueDate, StringFormat='Due: {0:d}'}" />
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding Name}" />
+                            <Label Grid.Column="1" Text="{Binding SubmissionStatus}" TextColor="{Binding SubmissionStatusColor}" />
+                        </Grid>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

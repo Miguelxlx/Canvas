@@ -15,6 +15,14 @@ namespace CanvasRemake.ViewModels
         {
             _course = course;
             _navigationService = navigationService;
+
+            // Update assignment submission status
+            foreach (var assignment in _course.Assignments)
+            {
+                var submission = App.AssignmentSubmissions.FirstOrDefault(s => s.AssignmentId == assignment.Id && s.StudentId == App.LoggedInStudent.ID);
+                assignment.SubmissionStatus = submission != null ? "Submitted" : "Missing";
+                assignment.SubmissionStatusColor = submission != null ? Colors.Green : Colors.Red;
+            }
         }
 
         public Course Course => _course;

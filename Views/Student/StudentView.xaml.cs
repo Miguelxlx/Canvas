@@ -2,6 +2,7 @@ using CanvasRemake.ViewModels;
 using CanvasRemake.Services;
 using Microsoft.Extensions.DependencyInjection;
 using CanvasRemake.Models;
+using Microsoft.Maui.Controls;
 
 namespace CanvasRemake.Views
 {

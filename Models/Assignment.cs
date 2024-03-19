@@ -11,6 +11,8 @@ namespace CanvasRemake.Models
         public bool IsSubmitted { get; set; }
         public bool IsNotSubmitted => !IsSubmitted;
         public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string SubmissionStatus { get; set; } = string.Empty;
+        public Color SubmissionStatusColor { get; set; }
 
         public Assignment() { }
 

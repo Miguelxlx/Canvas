@@ -29,20 +29,36 @@ namespace CanvasRemake.ViewModels
         [RelayCommand]
         async Task Submit()
         {
-            var submission = new AssignmentSubmission
-            {
-                AssignmentId = _assignment.Id,
-                StudentId = _student.ID,
-                SubmissionText = SubmissionText,
-                SubmissionDate = DateTime.Now
-            };
+            var existingSubmission = App.AssignmentSubmissions.FirstOrDefault(s => s.AssignmentId == _assignment.Id && s.StudentId == _student.ID);
 
-            App.AssignmentSubmissions.Add(submission);
-
-            for (int i = 0; i < App.AssignmentSubmissions.Count; i++)
+            if (existingSubmission != null)
             {
-                Console.WriteLine(App.AssignmentSubmissions[i].SubmissionText);
+                // Update existing submission
+                existingSubmission.SubmissionText = SubmissionText;
+                existingSubmission.SubmissionDate = DateTime.Now;
             }
+            else
+            {
+                // Create new submission
+                var submission = new AssignmentSubmission
+                {
+                    AssignmentId = _assignment.Id,
+                    StudentId = _student.ID,
+                    SubmissionText = SubmissionText,
+                    SubmissionDate = DateTime.Now
+                };
+
+                App.AssignmentSubmissions.Add(submission);
+                //print all assignment submissions
+            }
+
+            // Update assignment submission status
+            _assignment.SubmissionStatus = "Submitted";
+            _assignment.SubmissionStatusColor = Colors.Green;
+            foreach (var sub in App.AssignmentSubmissions)
+                {
+                    Console.WriteLine(sub.SubmissionText);
+                }
 
             await _navigationService.GoBackAsync();
         }
