@@ -1,31 +1,37 @@
+using CanvasRemake.ViewModels;
 using CanvasRemake.Models;
+using CanvasRemake.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CanvasRemake.Views
 {
+    [QueryProperty(nameof(AssignmentId), "assignmentId")]
+    [QueryProperty(nameof(StudentId), "studentId")]
     public partial class SubmitAssignmentView : ContentPage
     {
-        private Assignment _assignment;
+        public string AssignmentId { get; set; }
+        public string StudentId { get; set; }
 
-        public SubmitAssignmentView(Assignment assignment)
+        public SubmitAssignmentView()
         {
             InitializeComponent();
-            _assignment = assignment;
-            BindingContext = _assignment;
         }
 
-        private async void OnSubmitAssignmentClicked(object sender, EventArgs e)
+        protected override void OnAppearing()
         {
-            var submission = new Submission
+            base.OnAppearing();
+
+            if (!string.IsNullOrEmpty(AssignmentId) && !string.IsNullOrEmpty(StudentId))
             {
-                AssignmentId = _assignment.Id,
-                StudentId = App.LoggedInStudent.ID,
-                SubmissionDate = DateTime.Now
-            };
+                var assignment = App.Courses.SelectMany(c => c.Assignments).FirstOrDefault(a => a.Id == AssignmentId);
+                var student = App.Students.FirstOrDefault(s => s.ID == StudentId);
 
-            _assignment.IsSubmitted = true;
-
-            await DisplayAlert("Success", "Assignment submitted successfully.", "OK");
-            await Navigation.PopAsync();
+                if (assignment != null && student != null)
+                {
+                    var navigationService = App.ServiceProvider.GetService<INavigationService>();
+                    BindingContext = new SubmitAssignmentViewModel(assignment, student, navigationService);
+                }
+            }
         }
     }
 }

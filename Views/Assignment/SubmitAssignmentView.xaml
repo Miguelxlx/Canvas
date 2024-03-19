@@ -1,13 +1,17 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CanvasRemake.Views.SubmitAssignmentView"
-             Title="{Binding Name}">
-    
+             Title="Submit Assignment">
     <StackLayout Padding="20">
-        <Label Text="{Binding Name}" FontSize="24" />
-        <Label Text="{Binding Description}" FontSize="16" />
-        <Label Text="{Binding DueDate, StringFormat='Due: {0:d}'}" FontSize="16" />
+        <Label Text="Assignment:" FontSize="18" />
+        <Label Text="{Binding Assignment.Name}" FontSize="16" />
         
-        <Button Text="Submit Assignment" Clicked="OnSubmitAssignmentClicked" Margin="0,20,0,0" />
+        <Label Text="Student:" FontSize="18" />
+        <Label Text="{Binding StudentName}" FontSize="16" />
+        
+        <Label Text="Submission:" FontSize="18" />
+        <Editor Text="{Binding SubmissionText}" AutoSize="TextChanges" />
+        
+        <Button Text="Submit" Command="{Binding SubmitCommand}" Margin="0,20,0,0" />
     </StackLayout>
 </ContentPage>

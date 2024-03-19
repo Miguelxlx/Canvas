@@ -16,6 +16,19 @@ namespace CanvasRemake.ViewModels
             _course = course;
             _navigationService = navigationService;
         }
+
         public Course Course => _course;
+
+        [ObservableProperty]
+        Assignment selectedAssignment;
+
+        public async Task OnAssignmentSelectedAsync(Assignment assignment)
+        {
+            if (assignment != null)
+            {
+                // Navigate to the SubmitAssignmentView with the selected assignment and logged-in student
+                await _navigationService.NavigateToSubmitAssignment(assignment.Id, App.LoggedInStudent.ID);
+            }
+        }
     }
 }

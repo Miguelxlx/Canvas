@@ -10,13 +10,10 @@ namespace CanvasRemake.Models
         public DateTime DueDate { get; set; }
         public bool IsSubmitted { get; set; }
         public bool IsNotSubmitted => !IsSubmitted;
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
-        public int Id { get; set; }
+        public Assignment() { }
 
-
-        public Assignment()
-        {
-        }
         public Assignment(string name, string description, double totalAvailablePoints, DateTime dueDate)
         {
             Name = name;

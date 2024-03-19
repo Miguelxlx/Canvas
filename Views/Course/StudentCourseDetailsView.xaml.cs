@@ -9,7 +9,10 @@ namespace CanvasRemake.Views
     [QueryProperty("Course", "course")]
     public partial class StudentCourseDetailsView : ContentPage
     {
+        private StudentCourseDetailsViewModel _viewModel;
+
         public Course Course { get; set; }
+
         public StudentCourseDetailsView()
         {
             InitializeComponent();
@@ -19,7 +22,16 @@ namespace CanvasRemake.Views
         {
             base.OnAppearing();
             var navigationService = App.ServiceProvider.GetService<INavigationService>();
-            BindingContext = new StudentCourseDetailsViewModel(Course, navigationService);
+            _viewModel = new StudentCourseDetailsViewModel(Course, navigationService);
+            BindingContext = _viewModel;
+        }
+
+        private async void OnAssignmentSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem is Assignment selectedAssignment)
+            {
+                await _viewModel.OnAssignmentSelectedAsync(selectedAssignment);
+            }
         }
     }
 }

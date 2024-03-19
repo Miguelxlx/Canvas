@@ -62,5 +62,15 @@ namespace CanvasRemake.Services
             };
             await Shell.Current.GoToAsync($"{nameof(StudentCourseDetailsView)}", parameters);
         }
+
+        public async Task NavigateToSubmitAssignment(string assignmentId, string studentId)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                { "assignmentId", assignmentId },
+                { "studentId", studentId }
+            };
+            await Shell.Current.GoToAsync($"{nameof(SubmitAssignmentView)}", parameters);
+        }
     }
 }

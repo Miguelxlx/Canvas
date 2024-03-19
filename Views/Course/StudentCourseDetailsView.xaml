@@ -17,7 +17,9 @@
         </ListView>
 
         <Label Text="Assignments" FontSize="20" Margin="0,20,0,0" />
-        <ListView ItemsSource="{Binding Course.Assignments}">
+        <ListView ItemsSource="{Binding Course.Assignments}"
+                  SelectedItem="{Binding SelectedAssignment, Mode=TwoWay}"
+                  ItemSelected="OnAssignmentSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Name}" Detail="{Binding DueDate, StringFormat='Due: {0:d}'}" />

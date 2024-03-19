@@ -9,13 +9,14 @@ namespace CanvasRemake
 		public static IServiceProvider ServiceProvider { get; set; }
 		public static ObservableCollection<Course> Courses { get; set; } = new ObservableCollection<Course>();
 		public static ObservableCollection<Student> Students { get; set; } = new ObservableCollection<Student>();
-
+		public static ObservableCollection<AssignmentSubmission> AssignmentSubmissions { get; set; } = new ObservableCollection<AssignmentSubmission>();
 		public static Student LoggedInStudent { get; set; }
 
 		public App(IServiceProvider serviceProvider)
 		{
 			InitializeComponent();
 			ServiceProvider = serviceProvider;
+			Routing.RegisterRoute(nameof(SubmitAssignmentView), typeof(SubmitAssignmentView));
 			Routing.RegisterRoute(nameof(AddModuleView), typeof(AddModuleView));
 			Routing.RegisterRoute(nameof(AddAssignmentView), typeof(AddAssignmentView));
 			Routing.RegisterRoute(nameof(AddCourseView), typeof(AddCourseView));
