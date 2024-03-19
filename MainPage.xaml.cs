@@ -1,24 +1,35 @@
 ﻿using System;
 using CanvasRemake.Views;
+using CanvasRemake.Models;
 
 namespace CanvasRemake
 {
-	public partial class MainPage : ContentPage
-	{
-		public MainPage()
-		{
-			InitializeComponent();
-		}
+    public partial class MainPage : ContentPage
+    {
+        public MainPage()
+        {
+            InitializeComponent();
+        }
 
-		private async void OnStudentViewClicked(object sender, EventArgs e)
-		{
-			var student = App.Students.FirstOrDefault(s => s.ID == "S001"); // Replace with your student selection logic
-			await Navigation.PushAsync(new StudentView(student));
-		}
+        private async void OnStudentViewClicked(object sender, EventArgs e)
+        {
+            string studentId = StudentIdEntry.Text;
 
-		private async void OnInstructorViewClicked(object sender, EventArgs e)
-		{
-			await Navigation.PushAsync(new InstructorView());
-		}
-	}
+            var student = App.Students.FirstOrDefault(s => s.ID == studentId);
+
+            if (student != null)
+            {
+                await Navigation.PushAsync(new StudentView(student));
+            }
+            else
+            {
+                await DisplayAlert("Error", "Invalid student ID.", "OK");
+            }
+        }
+
+        private async void OnInstructorViewClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new InstructorView());
+        }
+    }
 }
