@@ -13,6 +13,11 @@ namespace CanvasRemake.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public ObservableCollection<AssignmentSubmission> Submissions { get; set; } = new ObservableCollection<AssignmentSubmission>();
 
+        public string GetSubmissionStatus(string studentId)
+        {
+            return "RETARD";
+        }
+
         public Assignment() { }
 
         public Assignment(string name, string description, double totalAvailablePoints, DateTime dueDate)

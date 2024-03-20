@@ -12,7 +12,6 @@
     </ContentPage.Resources>
 
     <StackLayout Padding="20">
-        <Label Text="{Binding Course.Name}" FontSize="24" />
         <Label Text="{Binding Course.Code}" FontSize="18" />
         <Label Text="{Binding Course.Description}" FontSize="16" />
 
@@ -24,7 +23,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
         <Label Text="Assignments" FontSize="20" Margin="0,20,0,0" />
         <ListView ItemsSource="{Binding Course.Assignments}"
                   SelectedItem="{Binding SelectedAssignment, Mode=TwoWay}"
@@ -37,8 +35,22 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Label Text="{Binding Name}" />
-                            <Label Grid.Column="1" Text="{Binding ., Converter={StaticResource SubmissionStatusConverter}, ConverterParameter={Binding Source={RelativeSource AncestorType={x:Type local:StudentCourseDetailsView}}, Path=BindingContext.Student}}" />
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Label Text="{Binding Name}" FontAttributes="Bold" />
+                            <Label Grid.Row="1" Text="{Binding DueDate, StringFormat='Due: {0:MM/dd/yyyy}'}" FontSize="12" />
+
+                            <Label Grid.Column="1" Grid.RowSpan="2" VerticalOptions="Center">
+                                <Label.Text>
+                                    <MultiBinding Converter="{StaticResource SubmissionStatusConverter}">
+                                        <Binding Path="." />
+                                        <Binding Path="BindingContext.Student.ID" Source="{RelativeSource AncestorType={x:Type local:StudentCourseDetailsView}}" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
