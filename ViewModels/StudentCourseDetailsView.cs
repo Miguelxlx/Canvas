@@ -1,3 +1,4 @@
+// StudentCourseDetailsViewModel.cs
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -10,22 +11,17 @@ namespace CanvasRemake.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly Course _course;
+        private readonly Student _student;
 
-        public StudentCourseDetailsViewModel(Course course, INavigationService navigationService)
+        public StudentCourseDetailsViewModel(Course course, Student student, INavigationService navigationService)
         {
             _course = course;
+            _student = student;
             _navigationService = navigationService;
-
-            // Update assignment submission status
-            foreach (var assignment in _course.Assignments)
-            {
-                var submission = App.AssignmentSubmissions.FirstOrDefault(s => s.AssignmentId == assignment.Id && s.StudentId == App.LoggedInStudent.ID);
-                assignment.SubmissionStatus = submission != null ? "Submitted" : "Missing";
-                assignment.SubmissionStatusColor = submission != null ? Colors.Green : Colors.Red;
-            }
         }
 
         public Course Course => _course;
+        public Student Student => _student;
 
         [ObservableProperty]
         Assignment selectedAssignment;
@@ -35,7 +31,7 @@ namespace CanvasRemake.ViewModels
             if (assignment != null)
             {
                 // Navigate to the SubmitAssignmentView with the selected assignment and logged-in student
-                await _navigationService.NavigateToSubmitAssignment(assignment.Id, App.LoggedInStudent.ID);
+                await _navigationService.NavigateToSubmitAssignment(assignment.Id, _student.ID);
             }
         }
     }

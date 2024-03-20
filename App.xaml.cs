@@ -42,8 +42,12 @@ namespace CanvasRemake
 			};
 
 			App.Courses[0].Roster.Add(App.Students[0]);
+			App.Courses[1].Roster.Add(App.Students[0]);
+			App.Courses[0].Roster.Add(App.Students[1]);
 			App.Courses[0].Assignments.Add(new Assignment("Assignment 1", "Assignment 1 description", 100, DateTime.Today));
 			App.Courses[0].Modules.Add(new Module("Module 1", "Module 1 description"));
+
+			App.LoggedInStudent = App.Students[0];
 		}
 	}
 }

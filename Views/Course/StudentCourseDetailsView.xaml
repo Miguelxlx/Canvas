@@ -1,7 +1,16 @@
+<!-- StudentCourseDetailsView.xaml -->
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:CanvasRemake.Converters"
+             xmlns:local="clr-namespace:CanvasRemake.Views"
              x:Class="CanvasRemake.Views.StudentCourseDetailsView"
              Title="{Binding Course.Name}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:SubmissionStatusConverter x:Key="SubmissionStatusConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <StackLayout Padding="20">
         <Label Text="{Binding Course.Name}" FontSize="24" />
         <Label Text="{Binding Course.Code}" FontSize="18" />
@@ -29,7 +38,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Label Text="{Binding Name}" />
-                            <Label Grid.Column="1" Text="{Binding SubmissionStatus}" TextColor="{Binding SubmissionStatusColor}" />
+                            <Label Grid.Column="1" Text="{Binding ., Converter={StaticResource SubmissionStatusConverter}, ConverterParameter={Binding Source={RelativeSource AncestorType={x:Type local:StudentCourseDetailsView}}, Path=BindingContext.Student}}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

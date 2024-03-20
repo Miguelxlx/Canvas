@@ -1,3 +1,4 @@
+// StudentCourseDetailsView.xaml.cs
 using CanvasRemake.ViewModels;
 using CanvasRemake.Models;
 using CanvasRemake.Services;
@@ -21,8 +22,19 @@ namespace CanvasRemake.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            RefreshViewModel();
+        }
+
+        protected override void OnNavigatedTo(NavigatedToEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+            RefreshViewModel();
+        }
+
+        private void RefreshViewModel()
+        {
             var navigationService = App.ServiceProvider.GetService<INavigationService>();
-            _viewModel = new StudentCourseDetailsViewModel(Course, navigationService);
+            _viewModel = new StudentCourseDetailsViewModel(Course, App.LoggedInStudent, navigationService);
             BindingContext = _viewModel;
         }
 

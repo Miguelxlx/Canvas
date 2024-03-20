@@ -29,7 +29,17 @@ namespace CanvasRemake.ViewModels
         [RelayCommand]
         async Task Submit()
         {
-            var existingSubmission = App.AssignmentSubmissions.FirstOrDefault(s => s.AssignmentId == _assignment.Id && s.StudentId == _student.ID);
+            Console.WriteLine("SUBMISSIONS-PRE: ");
+            for (int i = 0; i < _assignment.Submissions.Count; i++)
+            {
+                Console.WriteLine("Submission Text: " + _assignment.Submissions[i].SubmissionText);
+                Console.WriteLine("Submission Date: " + _assignment.Submissions[i].SubmissionDate);
+                Console.WriteLine("Student ID: " + _assignment.Submissions[i].StudentId);
+                Console.WriteLine("Assignment ID: " + _assignment.Submissions[i].AssignmentId);
+                Console.WriteLine("Submission ID: " + _assignment.Submissions[i].SubmissionId);
+            }
+
+            var existingSubmission = _assignment.Submissions.FirstOrDefault(s => s.StudentId == _student.ID);
 
             if (existingSubmission != null)
             {
@@ -42,23 +52,26 @@ namespace CanvasRemake.ViewModels
                 // Create new submission
                 var submission = new AssignmentSubmission
                 {
+
                     AssignmentId = _assignment.Id,
                     StudentId = _student.ID,
                     SubmissionText = SubmissionText,
-                    SubmissionDate = DateTime.Now
+                    SubmissionDate = DateTime.Now,
+                    SubmissionId = Guid.NewGuid().ToString()
                 };
 
-                App.AssignmentSubmissions.Add(submission);
-                //print all assignment submissions
+                _assignment.Submissions.Add(submission);
             }
 
-            // Update assignment submission status
-            _assignment.SubmissionStatus = "Submitted";
-            _assignment.SubmissionStatusColor = Colors.Green;
-            foreach (var sub in App.AssignmentSubmissions)
-                {
-                    Console.WriteLine(sub.SubmissionText);
-                }
+            Console.WriteLine("SUBMISSIONS: ");
+            for (int i = 0; i < _assignment.Submissions.Count; i++)
+            {
+                Console.WriteLine("Submission Text: " + _assignment.Submissions[i].SubmissionText);
+                Console.WriteLine("Submission Date: " + _assignment.Submissions[i].SubmissionDate);
+                Console.WriteLine("Student ID: " + _assignment.Submissions[i].StudentId);
+                Console.WriteLine("Assignment ID: " + _assignment.Submissions[i].AssignmentId);
+                Console.WriteLine("Submission ID: " + _assignment.Submissions[i].SubmissionId);
+            }
 
             await _navigationService.GoBackAsync();
         }

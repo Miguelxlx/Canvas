@@ -19,6 +19,7 @@ namespace CanvasRemake
 
             if (student != null)
             {
+                App.LoggedInStudent = student;
                 await Navigation.PushAsync(new StudentView(student));
             }
             else
