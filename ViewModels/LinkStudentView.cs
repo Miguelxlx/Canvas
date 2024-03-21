@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-using CanvasRemake.Models;
 using CanvasRemake.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -35,8 +32,6 @@ namespace CanvasRemake.ViewModels
                 {
                     course.Roster.Add(student);
                     App.Current.MainPage.DisplayAlert("Success", "Student linked to the course successfully.", "OK");
-
-                    // Print the entire roster
                     Console.WriteLine($"Roster for course {course.Name}:");
                     foreach (var s in course.Roster)
                     {

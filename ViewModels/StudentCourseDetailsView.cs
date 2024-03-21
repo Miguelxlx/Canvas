@@ -1,7 +1,4 @@
-// StudentCourseDetailsViewModel.cs
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using CanvasRemake.Models;
 using CanvasRemake.Services;
 
@@ -31,7 +28,6 @@ namespace CanvasRemake.ViewModels
         {
             if (assignment != null)
             {
-                // Navigate to the SubmitAssignmentView with the selected assignment and logged-in student
                 await _navigationService.NavigateToSubmitAssignment(assignment.Id, _student.ID);
             }
         }

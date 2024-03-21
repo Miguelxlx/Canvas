@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Linq;
 using CanvasRemake.Models;
 using CanvasRemake.Services;
 using CommunityToolkit.Mvvm.ComponentModel;

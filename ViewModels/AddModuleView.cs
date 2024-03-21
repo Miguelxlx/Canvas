@@ -1,4 +1,3 @@
-// AddModuleViewModel
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CanvasRemake.Models;
@@ -51,8 +50,6 @@ namespace CanvasRemake.ViewModels
         {
             if (_course == null)
             {
-                // Handle the case when _course is null, e.g., show an error message or navigate back
-                Console.WriteLine("Course is null");
                 await _navigationService.GoBackAsync();
                 return;
             }

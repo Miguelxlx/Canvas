@@ -1,6 +1,4 @@
-﻿using System;
-using CanvasRemake.Views;
-using CanvasRemake.Models;
+﻿using CanvasRemake.Views;
 
 namespace CanvasRemake
 {

@@ -1,4 +1,3 @@
-using System;
 using CanvasRemake.Models;
 using CanvasRemake.Services;
 using CommunityToolkit.Mvvm.ComponentModel;

@@ -1,6 +1,5 @@
 using CanvasRemake.ViewModels;
 using CanvasRemake.Services;
-using Microsoft.Extensions.DependencyInjection;
 using CanvasRemake.Models;
 
 namespace CanvasRemake.Views

@@ -1,8 +1,6 @@
 using CanvasRemake.ViewModels;
 using CanvasRemake.Models;
 
-using Microsoft.Maui.Controls;
-
 namespace CanvasRemake.Views
 {
     [QueryProperty("Assignment", "assignment")]

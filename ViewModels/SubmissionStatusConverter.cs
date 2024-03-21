@@ -1,5 +1,3 @@
-// SubmissionStatusConverter.cs
-using System;
 using System.Globalization;
 using CanvasRemake.Models;
 

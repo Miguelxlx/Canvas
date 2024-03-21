@@ -1,7 +1,4 @@
-// GradeDisplayConverter.cs
-using System;
 using System.Globalization;
-using System.Linq;
 using CanvasRemake.Models;
 
 namespace CanvasRemake.Converters

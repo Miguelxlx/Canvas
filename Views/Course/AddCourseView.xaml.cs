@@ -1,7 +1,5 @@
 using CanvasRemake.ViewModels;
 using CanvasRemake.Services;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Maui.Controls;
 
 namespace CanvasRemake.Views
 {
