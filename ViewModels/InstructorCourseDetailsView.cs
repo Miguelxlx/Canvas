@@ -11,12 +11,15 @@ namespace CanvasRemake.ViewModels
         private readonly INavigationService _navigationService;
         private readonly Course _course;
 
+        [ObservableProperty]
+        Assignment selectedAssignment;
+
         public InstructorCourseDetailsViewModel(Course course, INavigationService navigationService)
         {
             _course = course;
             _navigationService = navigationService;
-            AddModuleCommand = new RelayCommand(OnAddModule); // Corrected method reference
-            AddAssignmentCommand = new RelayCommand(OnAddAssignment); // Corrected method reference
+            AddModuleCommand = new RelayCommand(OnAddModule);
+            AddAssignmentCommand = new RelayCommand(OnAddAssignment);
         }
 
         public Course Course => _course;
@@ -40,6 +43,14 @@ namespace CanvasRemake.ViewModels
         {
 
             _navigationService.NavigateToAddAssignment(_course.Code.ToString());
+        }
+
+        public async Task OnAssignmentSelectedAsync(Assignment assignment)
+        {
+            if (assignment != null)
+            {
+                await _navigationService.NavigateToAssignmentSubmissions(assignment);
+            }
         }
     }
 }

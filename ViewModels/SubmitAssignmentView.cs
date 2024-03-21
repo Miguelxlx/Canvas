@@ -37,6 +37,7 @@ namespace CanvasRemake.ViewModels
                 Console.WriteLine("Student ID: " + _assignment.Submissions[i].StudentId);
                 Console.WriteLine("Assignment ID: " + _assignment.Submissions[i].AssignmentId);
                 Console.WriteLine("Submission ID: " + _assignment.Submissions[i].SubmissionId);
+                Console.WriteLine("Grade: " + _assignment.Submissions[i].Grade);
             }
 
             var existingSubmission = _assignment.Submissions.FirstOrDefault(s => s.StudentId == _student.ID);
@@ -46,6 +47,7 @@ namespace CanvasRemake.ViewModels
                 // Update existing submission
                 existingSubmission.SubmissionText = SubmissionText;
                 existingSubmission.SubmissionDate = DateTime.Now;
+                existingSubmission.Grade = 0;
             }
             else
             {
@@ -71,6 +73,7 @@ namespace CanvasRemake.ViewModels
                 Console.WriteLine("Student ID: " + _assignment.Submissions[i].StudentId);
                 Console.WriteLine("Assignment ID: " + _assignment.Submissions[i].AssignmentId);
                 Console.WriteLine("Submission ID: " + _assignment.Submissions[i].SubmissionId);
+                Console.WriteLine("Grade: " + _assignment.Submissions[i].Grade);
             }
 
             await _navigationService.GoBackAsync();

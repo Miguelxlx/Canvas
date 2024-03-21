@@ -16,6 +16,7 @@ namespace CanvasRemake
 		{
 			InitializeComponent();
 			ServiceProvider = serviceProvider;
+			Routing.RegisterRoute(nameof(AssignmentSubmissionsView), typeof(AssignmentSubmissionsView));
 			Routing.RegisterRoute(nameof(SubmitAssignmentView), typeof(SubmitAssignmentView));
 			Routing.RegisterRoute(nameof(AddModuleView), typeof(AddModuleView));
 			Routing.RegisterRoute(nameof(AddAssignmentView), typeof(AddAssignmentView));

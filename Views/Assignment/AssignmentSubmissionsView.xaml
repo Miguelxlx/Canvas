@@ -1,0 +1,36 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CanvasRemake.Views.AssignmentSubmissionsView"
+             Title="Assignment Submissions">
+    <StackLayout Padding="20">
+        <Label Text="{Binding Assignment.Name}" FontSize="24" />
+        <Label Text="{Binding Assignment.DueDate, StringFormat='Due: {0:d}'}" FontSize="18" />
+
+        <ListView ItemsSource="{Binding Assignment.Submissions}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Label Text="{Binding StudentId}" FontAttributes="Bold" />
+                            <Label Grid.Row="1" Text="{Binding SubmissionText}" FontSize="12" />
+
+                            <StackLayout Grid.Column="1" Spacing="5">
+                                <Label Text="Grade:" FontSize="12" />
+                                <Entry Text="{Binding Grade}" Keyboard="Numeric" WidthRequest="60" />
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>

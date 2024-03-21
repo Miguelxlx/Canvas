@@ -9,7 +9,7 @@ namespace CanvasRemake.Models
         public string StudentId { get; set; } = string.Empty;
         public string SubmissionText { get; set; } = string.Empty;
         public DateTime SubmissionDate { get; set; }
-        public double Grade { get; set; }
+        public double Grade { get; set; } = 0;
         public bool IsGraded { get; set; }
     }
 }

@@ -8,6 +8,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:SubmissionStatusConverter x:Key="SubmissionStatusConverter" />
+            <converters:GradeDisplayConverter x:Key="GradeDisplayConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -42,6 +43,14 @@
 
                             <Label Text="{Binding Name}" FontAttributes="Bold" />
                             <Label Grid.Row="1" Text="{Binding DueDate, StringFormat='Due: {0:MM/dd/yyyy}'}" FontSize="12" />
+                            <Label Grid.Row="1" Grid.Column="1">
+                                <Label.Text>
+                                    <MultiBinding Converter="{StaticResource GradeDisplayConverter}">
+                                        <Binding Path="." />
+                                        <Binding Path="BindingContext.Student.ID" Source="{RelativeSource AncestorType={x:Type local:StudentCourseDetailsView}}" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
 
                             <Label Grid.Column="1" Grid.RowSpan="2" VerticalOptions="Center">
                                 <Label.Text>
