@@ -3,9 +3,9 @@
              x:Class="CanvasRemake.Views.InstructorView"
              Title="Instructor View">
     <StackLayout Padding="20">
-        <Button Text="Add Student" Command="{Binding AddStudentCommand}" />
-        <Button Text="Add Course" Command="{Binding AddCourseCommand}" />
-        <Button Text="Link Students to Course" Command="{Binding LinkStudentsCommand}" />
+        <Button Text="Add Student" Command="{Binding AddStudentCommand}" Margin="0,0,0,10" />
+        <Button Text="Add Course" Command="{Binding AddCourseCommand}" Margin="0,0,0,10" />
+        <Button Text="Link Students to Course" Command="{Binding LinkStudentsCommand}" Margin="0,0,0,10" />
         <Label Text="Courses" FontSize="24" />
         <ListView ItemsSource="{Binding Courses}"
                 SelectedItem="{Binding SelectedCourse, Mode=TwoWay}"
