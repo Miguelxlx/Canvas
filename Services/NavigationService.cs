@@ -35,6 +35,16 @@ namespace CanvasRemake.Services
             await Shell.Current.GoToAsync(nameof(AddStudentView));
         }
 
+        public async Task NavigateToSearchStudent()
+        {
+            await Shell.Current.GoToAsync(nameof(SearchStudentView));
+        }
+
+        public async Task NavigateToSearchCourse()
+        {
+            await Shell.Current.GoToAsync(nameof(SearchCourseView));
+        }
+
         public async Task NavigateToAddCourse()
         {
             await Shell.Current.GoToAsync(nameof(AddCourseView));

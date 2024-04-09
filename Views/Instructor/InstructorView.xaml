@@ -3,6 +3,8 @@
              x:Class="CanvasRemake.Views.InstructorView"
              Title="Instructor View">
     <StackLayout Padding="20">
+        <Button Text="Search Student" Command="{Binding SearchStudentCommand}" Margin="0,0,0,10" />
+        <Button Text="Search Course" Command="{Binding SearchCourseCommand}" Margin="0,0,0,10" />
         <Button Text="Add Student" Command="{Binding AddStudentCommand}" Margin="0,0,0,10" />
         <Button Text="Add Course" Command="{Binding AddCourseCommand}" Margin="0,0,0,10" />
         <Button Text="Link/Remove Students to/from Course" Command="{Binding LinkStudentsCommand}" Margin="0,0,0,10" />
@@ -16,6 +18,7 @@
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
                             <Label Text="{Binding Name}" />
+                            <Label Text="  " />
                             <Label Text="{Binding Code}" />
                         </StackLayout>
                     </ViewCell>

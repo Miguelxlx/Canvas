@@ -17,6 +17,8 @@ namespace CanvasRemake.ViewModels
             AddCourseCommand = new AsyncRelayCommand(OnAddCourseAsync);
             AddStudentCommand = new AsyncRelayCommand(OnAddStudentAsync);
             LinkStudentsCommand = new AsyncRelayCommand(onLinkStudentsAsync);
+            SearchStudentCommand = new AsyncRelayCommand(OnSearchStudentAsync);
+            SearchCourseCommand = new AsyncRelayCommand(OnSearchCourseAsync);
 
             Courses = App.Courses;
             Students = App.Students;
@@ -36,6 +38,8 @@ namespace CanvasRemake.ViewModels
         public IAsyncRelayCommand AddCourseCommand { get; }
         public IAsyncRelayCommand AddStudentCommand { get; }
         public IAsyncRelayCommand LinkStudentsCommand { get; }
+        public IAsyncRelayCommand SearchStudentCommand { get; }
+        public IAsyncRelayCommand SearchCourseCommand { get; }
 
         private async Task OnCourseSelectedAsync(Course course)
         {
@@ -56,5 +60,17 @@ namespace CanvasRemake.ViewModels
         {
             await _navigationService.NavigateToLinkStudents();
         }
+
+        private async Task OnSearchStudentAsync()
+        {
+            await _navigationService.NavigateToSearchStudent();
+        }
+
+        private async Task OnSearchCourseAsync()
+        {
+            await _navigationService.NavigateToSearchCourse();
+        }
+
+
     }
 }

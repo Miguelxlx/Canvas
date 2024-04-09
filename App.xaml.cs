@@ -25,6 +25,8 @@ namespace CanvasRemake
 			Routing.RegisterRoute(nameof(LinkStudentsView), typeof(LinkStudentsView));
 			Routing.RegisterRoute(nameof(InstructorCourseDetailsView), typeof(InstructorCourseDetailsView));
 			Routing.RegisterRoute(nameof(StudentCourseDetailsView), typeof(StudentCourseDetailsView));
+			Routing.RegisterRoute(nameof(SearchStudentView), typeof(SearchStudentView));
+			Routing.RegisterRoute(nameof(SearchCourseView), typeof(SearchCourseView));
 
 			MainPage = new AppShell();
 
