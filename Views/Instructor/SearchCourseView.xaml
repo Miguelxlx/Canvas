@@ -8,9 +8,12 @@
 
     <VerticalStackLayout Spacing="25" Padding="30">
         <SearchBar Placeholder="Search courses by name or description"
-                   Text="{Binding SearchText, Mode=TwoWay}"
-                   SearchCommand="{Binding SearchCommand}"/>
-        <ListView ItemsSource="{Binding SearchResults}">
+                Text="{Binding SearchText, Mode=TwoWay}"
+                SearchCommand="{Binding SearchCommand}"/>
+        <ListView ItemsSource="{Binding SearchResults}"
+                SelectedItem="{Binding SelectedCourse, Mode=TwoWay}"
+                SelectionMode="Single"
+                ItemSelected="OnCourseSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextCell Text="{Binding Name}" Detail="{Binding Code}" />
