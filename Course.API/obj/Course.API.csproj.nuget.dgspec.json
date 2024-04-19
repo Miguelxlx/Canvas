@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\chris.mills\\source\\repos\\Course.API\\Course.API\\Course.API.csproj": {}
+    "C:\\Users\\migue\\OneDrive\\Documentos\\CanvasRemake\\Course.API\\Course.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\chris.mills\\source\\repos\\Course.API\\Course.API\\Course.API.csproj": {
+    "C:\\Users\\migue\\OneDrive\\Documentos\\CanvasRemake\\Course.API\\Course.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\chris.mills\\source\\repos\\Course.API\\Course.API\\Course.API.csproj",
+        "projectUniqueName": "C:\\Users\\migue\\OneDrive\\Documentos\\CanvasRemake\\Course.API\\Course.API.csproj",
         "projectName": "Course.API",
-        "projectPath": "C:\\Users\\chris.mills\\source\\repos\\Course.API\\Course.API\\Course.API.csproj",
-        "packagesPath": "C:\\Users\\chris.mills\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\chris.mills\\source\\repos\\Course.API\\Course.API\\obj\\",
+        "projectPath": "C:\\Users\\migue\\OneDrive\\Documentos\\CanvasRemake\\Course.API\\Course.API.csproj",
+        "packagesPath": "C:\\Users\\migue\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\migue\\OneDrive\\Documentos\\CanvasRemake\\Course.API\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\chris.mills\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\migue\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
@@ -69,7 +63,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.103/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
