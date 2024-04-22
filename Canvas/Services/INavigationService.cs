@@ -6,8 +6,8 @@ namespace CanvasRemake.Services
     public interface INavigationService
     {
         Task GoBackAsync();
-        Task NavigateToAddModule(string courseId);
-        Task NavigateToAddAssignment(string courseId);
+        Task NavigateToAddModule(string courseCode);
+        Task NavigateToAddAssignment(string courseCode);
         Task NavigateToAddStudent();
         Task NavigateToAddCourse();
         Task NavigateToLinkStudents();

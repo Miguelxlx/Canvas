@@ -18,15 +18,15 @@ namespace CanvasRemake.Services
             }
         }
 
-        public async Task NavigateToAddModule(string courseId)
+        public async Task NavigateToAddModule(string courseCode)
         {
-            var route = $"{nameof(AddModuleView)}?courseId={courseId}";
+            var route = $"{nameof(AddModuleView)}?courseCode={courseCode}";
             await Shell.Current.GoToAsync(route);
         }
 
-        public async Task NavigateToAddAssignment(string courseId)
+        public async Task NavigateToAddAssignment(string courseCode)
         {
-            var route = $"{nameof(AddAssignmentView)}?courseId={courseId}";
+            var route = $"{nameof(AddAssignmentView)}?courseCode={courseCode}";
             await Shell.Current.GoToAsync(route);
         }
 
