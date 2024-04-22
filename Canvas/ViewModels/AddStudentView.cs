@@ -35,6 +35,7 @@ namespace CanvasRemake.ViewModels
             bool isAdded = await _apiService.AddStudentAsync(newStudent);
             if (isAdded)
             {
+                MessagingCenter.Send<AddStudentViewModel>(this, "StudentAdded");
                 await _navigationService.GoBackAsync();
             }
             else

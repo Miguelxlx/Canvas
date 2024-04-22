@@ -9,7 +9,8 @@ namespace CanvasRemake.Views
         {
             InitializeComponent();
             var navigationService = App.ServiceProvider.GetService<INavigationService>();
-            BindingContext = new LinkStudentsViewModel(navigationService);
+            var apiService = App.ServiceProvider.GetService<ApiService>();
+            BindingContext = new LinkStudentsViewModel(navigationService, apiService);
         }
     }
 }

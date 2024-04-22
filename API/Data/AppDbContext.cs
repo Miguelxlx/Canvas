@@ -17,7 +17,10 @@ namespace API.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Optional: Configure relationships and indexes
+            modelBuilder.Entity<CourseInfo>()
+                .HasMany(c => c.Roster)
+                .WithMany()
+                .UsingEntity(j => j.ToTable("CourseStudentEnrollment"));
         }
     }
 }

@@ -4,39 +4,26 @@ using CanvasRemake.Services;
 
 namespace CanvasRemake.Views
 {
-    [QueryProperty(nameof(CourseId), "courseId")]
+    [QueryProperty(nameof(CourseCode), "courseCode")]
     public partial class AddAssignmentView : ContentPage
     {
-        public string CourseId
-        {
-            set
-            {
-                LoadCourse(value);
-            }
-        }
+        public string CourseCode { get; set; }
 
         public AddAssignmentView()
         {
             InitializeComponent();
             var navigationService = App.ServiceProvider.GetService<INavigationService>();
-            BindingContext = new AddAssignmentViewModel(null, navigationService);
+            var apiService = App.ServiceProvider.GetService<ApiService>();
+            BindingContext = new AddAssignmentViewModel(navigationService, apiService);
         }
 
-        private async void LoadCourse(string courseId)
+        protected override void OnAppearing()
         {
-            var course = await FetchCourseById(courseId);
-            if (course != null && BindingContext is AddAssignmentViewModel vm)
+            base.OnAppearing();
+            if (BindingContext is AddAssignmentViewModel vm)
             {
-                vm.Initialize(course);
+                vm.Initialize(CourseCode);
             }
-        }
-
-
-        private async Task<Course> FetchCourseById(string courseId)
-        {
-            var course = App.Courses.FirstOrDefault(c => c.Code == courseId);
-
-            return course;
         }
     }
 }

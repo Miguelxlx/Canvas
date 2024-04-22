@@ -89,5 +89,15 @@ namespace API.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
+        [HttpGet("{studentId}/courses")]
+        public async Task<ActionResult<IEnumerable<CourseInfo>>> GetEnrolledCoursesForStudent(string studentId)
+        {
+            var enrolledCourses = await _context.Courses
+                .Where(c => c.Roster.Any(s => s.StudentId == studentId))
+                .ToListAsync();
+
+            return enrolledCourses;
+        }
     }
 }

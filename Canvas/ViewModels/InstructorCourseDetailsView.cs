@@ -9,17 +9,20 @@ namespace CanvasRemake.ViewModels
     public partial class InstructorCourseDetailsViewModel : ObservableObject
     {
         private readonly INavigationService _navigationService;
+        private readonly ApiService _apiService;
         private readonly Course _course;
 
         [ObservableProperty]
         Assignment selectedAssignment;
 
-        public InstructorCourseDetailsViewModel(Course course, INavigationService navigationService)
+        public InstructorCourseDetailsViewModel(Course course, INavigationService navigationService, ApiService apiService)
         {
             _course = course;
             _navigationService = navigationService;
-            AddModuleCommand = new RelayCommand(OnAddModule);
-            AddAssignmentCommand = new RelayCommand(OnAddAssignment);
+            _apiService = apiService;
+            AddModuleCommand = new AsyncRelayCommand(OnAddModuleAsync);
+            AddAssignmentCommand = new AsyncRelayCommand(OnAddAssignmentAsync);
+            LoadCourseDetailsAsync();
         }
 
         public Course Course => _course;
@@ -30,19 +33,27 @@ namespace CanvasRemake.ViewModels
         [ObservableProperty]
         ObservableCollection<Assignment> assignments;
 
-        public IRelayCommand AddModuleCommand { get; }
-        public IRelayCommand AddAssignmentCommand { get; }
+        public IAsyncRelayCommand AddModuleCommand { get; }
+        public IAsyncRelayCommand AddAssignmentCommand { get; }
 
-        private void OnAddModule()
+        private async Task LoadCourseDetailsAsync()
         {
-
-            _navigationService.NavigateToAddModule(_course.Code.ToString());
+            var course = await _apiService.GetCourseDetailsAsync(_course.Code);
+            if (course != null)
+            {
+                Modules = new ObservableCollection<Module>(course.Modules);
+                Assignments = new ObservableCollection<Assignment>(course.Assignments);
+            }
         }
 
-        private void OnAddAssignment()
+        private async Task OnAddModuleAsync()
         {
+            await _navigationService.NavigateToAddModule(_course.Code);
+        }
 
-            _navigationService.NavigateToAddAssignment(_course.Code.ToString());
+        private async Task OnAddAssignmentAsync()
+        {
+            await _navigationService.NavigateToAddAssignment(_course.Code);
         }
 
         public async Task OnAssignmentSelectedAsync(Assignment assignment)

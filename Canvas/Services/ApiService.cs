@@ -5,6 +5,8 @@ using CanvasRemake.Models;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Diagnostics;
+using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace CanvasRemake.Services
 {
@@ -45,8 +47,17 @@ namespace CanvasRemake.Services
         // Add a new course
         public async Task<bool> AddCourseAsync(Course course)
         {
-            var response = await _client.PostAsJsonAsync("api/courses", course);
-            return response.IsSuccessStatusCode;
+            try
+            {
+                var response = await _client.PostAsJsonAsync("api/courses", course);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                // Log or handle exceptions
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+                return false;
+            }
         }
 
         // Fetch all students
@@ -68,6 +79,90 @@ namespace CanvasRemake.Services
                 // Log or handle exceptions
                 Debug.WriteLine($"An error occurred: {ex.Message}");
                 return false;
+            }
+        }
+
+        public async Task<bool> LinkStudentToCourseAsync(string courseCode, string studentId)
+        {
+            try
+            {
+                var response = await _client.PostAsync($"api/courses/{courseCode}/students/{studentId}", null);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+                return false;
+            }
+        }
+        public async Task<bool> RemoveStudentFromCourseAsync(string courseCode, string studentId)
+        {
+            try
+            {
+                var response = await _client.DeleteAsync($"api/courses/{courseCode}/students/{studentId}");
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<IEnumerable<Course>> GetEnrolledCoursesForStudentAsync(string studentId)
+        {
+            try
+            {
+                var response = await _client.GetAsync($"api/students/{studentId}/courses");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<IEnumerable<Course>>();
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+                return Enumerable.Empty<Course>();
+            }
+        }
+
+        public async Task<Course> GetCourseDetailsAsync(string courseCode)
+        {
+            try
+            {
+                var response = await _client.GetAsync($"api/courses/{courseCode}/details");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<Course>();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task AddModuleToCourseAsync(string courseCode, Module module)
+        {
+            try
+            {
+                var response = await _client.PostAsJsonAsync($"api/courses/{courseCode}/modules", module);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task AddAssignmentToCourseAsync(string courseCode, Assignment assignment)
+        {
+            try
+            {
+                var response = await _client.PostAsJsonAsync($"api/courses/{courseCode}/assignments", assignment);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
             }
         }
 

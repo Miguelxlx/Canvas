@@ -1,3 +1,5 @@
+// File: Canvas/ViewModels/InstructorViewModel.cs
+
 using System.Collections.ObjectModel;
 using CanvasRemake.Models;
 using CanvasRemake.Services;
@@ -9,21 +11,22 @@ namespace CanvasRemake.ViewModels
     public partial class InstructorViewModel : ObservableObject
     {
         private readonly INavigationService _navigationService;
+        private readonly ApiService _apiService;
 
-        public InstructorViewModel(INavigationService navigationService)
+        public InstructorViewModel(INavigationService navigationService, ApiService apiService)
         {
             _navigationService = navigationService;
+            _apiService = apiService;
             CourseSelectedCommand = new AsyncRelayCommand<Course>(OnCourseSelectedAsync);
             AddCourseCommand = new AsyncRelayCommand(OnAddCourseAsync);
             AddStudentCommand = new AsyncRelayCommand(OnAddStudentAsync);
             LinkStudentsCommand = new AsyncRelayCommand(onLinkStudentsAsync);
             SearchStudentCommand = new AsyncRelayCommand(OnSearchStudentAsync);
             SearchCourseCommand = new AsyncRelayCommand(OnSearchCourseAsync);
-
-            Courses = App.Courses;
-            Students = App.Students;
+            MessagingCenter.Subscribe<AddCourseViewModel>(this, "CourseAdded", _ => LoadDataAsync());
+            MessagingCenter.Subscribe<AddStudentViewModel>(this, "StudentAdded", _ => LoadDataAsync());
+            LoadDataAsync();
         }
-
 
         [ObservableProperty]
         ObservableCollection<Course> courses;
@@ -41,19 +44,32 @@ namespace CanvasRemake.ViewModels
         public IAsyncRelayCommand SearchStudentCommand { get; }
         public IAsyncRelayCommand SearchCourseCommand { get; }
 
+        private async Task LoadDataAsync()
+        {
+            Courses = await _apiService.GetCoursesAsync();
+            Students = await _apiService.GetStudentsAsync();
+        }
+
+        public async Task RefreshDataAsync()
+        {
+            Students = await _apiService.GetStudentsAsync();
+        }
+
         private async Task OnCourseSelectedAsync(Course course)
         {
-            await _navigationService.NavigateToInstructorCourseDetails(course);
+            await _navigationService.NavigateToInstructorCourseDetails(course.Code);
         }
 
         private async Task OnAddCourseAsync()
         {
             await _navigationService.NavigateToAddCourse();
+            await LoadDataAsync();
         }
 
         private async Task OnAddStudentAsync()
         {
             await _navigationService.NavigateToAddStudent();
+            await LoadDataAsync();
         }
 
         private async Task onLinkStudentsAsync()

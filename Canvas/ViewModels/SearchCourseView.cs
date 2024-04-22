@@ -47,7 +47,7 @@ namespace CanvasRemake.ViewModels
         {
             if (course != null)
             {
-                await _navigationService.NavigateToInstructorCourseDetails(course);
+                await _navigationService.NavigateToInstructorCourseDetails(course.Code);
             }
         }
     }

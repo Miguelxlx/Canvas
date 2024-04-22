@@ -1,12 +1,14 @@
 using CanvasRemake.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Threading.Tasks;
 
 namespace CanvasRemake.ViewModels
 {
     public partial class LinkStudentsViewModel : ObservableObject
     {
         private readonly INavigationService _navigationService;
+        private readonly ApiService _apiService;
 
         [ObservableProperty]
         private string courseCode;
@@ -14,61 +16,45 @@ namespace CanvasRemake.ViewModels
         [ObservableProperty]
         private string studentId;
 
-        public LinkStudentsViewModel(INavigationService navigationService)
+        public LinkStudentsViewModel(INavigationService navigationService, ApiService apiService)
         {
             _navigationService = navigationService;
-            LinkStudentCommand = new RelayCommand(OnLinkStudent);
-            RemoveStudentCommand = new RelayCommand(OnRemoveStudent);
+            _apiService = apiService;
+            LinkStudentCommand = new AsyncRelayCommand(OnLinkStudentAsync);
+            RemoveStudentCommand = new AsyncRelayCommand(OnRemoveStudentAsync);
         }
 
-        public IRelayCommand LinkStudentCommand { get; }
-        public IRelayCommand RemoveStudentCommand { get; }
-        private async void OnLinkStudent()
-        {
-            var course = App.Courses.FirstOrDefault(c => c.Code == CourseCode);
-            var student = App.Students.FirstOrDefault(s => s.StudentId == StudentId);
+        public IAsyncRelayCommand LinkStudentCommand { get; }
+        public IAsyncRelayCommand RemoveStudentCommand { get; }
 
-            if (course != null && student != null)
+        private async Task OnLinkStudentAsync()
+        {
+            bool isLinked = await _apiService.LinkStudentToCourseAsync(CourseCode, StudentId);
+
+            if (isLinked)
             {
-                if (!course.Roster.Contains(student))
-                {
-                    course.Roster.Add(student);
-                    App.Current.MainPage.DisplayAlert("Success", "Student linked to the course successfully.", "OK");
-                }
-                else
-                {
-                    App.Current.MainPage.DisplayAlert("Error", "Student is already linked to the course.", "OK");
-                }
+                await App.Current.MainPage.DisplayAlert("Success", "Student linked to the course successfully.", "OK");
             }
             else
             {
-                App.Current.MainPage.DisplayAlert("Error", "Course code or student ID is invalid.", "OK");
+                await App.Current.MainPage.DisplayAlert("Error", "Failed to link student to the course.", "OK");
             }
 
             CourseCode = string.Empty;
             StudentId = string.Empty;
         }
 
-        private async void OnRemoveStudent()
+        private async Task OnRemoveStudentAsync()
         {
-            var course = App.Courses.FirstOrDefault(c => c.Code == CourseCode);
-            var student = App.Students.FirstOrDefault(s => s.StudentId == StudentId);
+            bool isRemoved = await _apiService.RemoveStudentFromCourseAsync(CourseCode, StudentId);
 
-            if (course != null && student != null)
+            if (isRemoved)
             {
-                if (course.Roster.Contains(student))
-                {
-                    course.Roster.Remove(student);
-                    App.Current.MainPage.DisplayAlert("Success", "Student removed from the course successfully.", "OK");
-                }
-                else
-                {
-                    App.Current.MainPage.DisplayAlert("Error", "Student is not in the course.", "OK");
-                }
+                await App.Current.MainPage.DisplayAlert("Success", "Student removed from the course successfully.", "OK");
             }
             else
             {
-                App.Current.MainPage.DisplayAlert("Error", "Course code or student ID is invalid.", "OK");
+                await App.Current.MainPage.DisplayAlert("Error", "Failed to remove student from the course.", "OK");
             }
 
             CourseCode = string.Empty;

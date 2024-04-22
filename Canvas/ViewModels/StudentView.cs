@@ -11,16 +11,16 @@ namespace CanvasRemake.ViewModels
     public partial class StudentViewModel : ObservableObject
     {
         private readonly INavigationService _navigationService;
-        private readonly ApiService _apiService;  // Inject ApiService
+        private readonly ApiService _apiService;
         private readonly Student _student;
 
         public StudentViewModel(Student student, INavigationService navigationService, ApiService apiService)
         {
             _student = student;
             _navigationService = navigationService;
-            _apiService = App.ServiceProvider.GetService<ApiService>();
+            _apiService = apiService;
             CourseSelectedCommand = new AsyncRelayCommand<Course>(OnCourseSelectedAsync);
-            LoadEnrolledCourses();
+            LoadEnrolledCoursesAsync();
         }
 
         [ObservableProperty]
@@ -36,12 +36,10 @@ namespace CanvasRemake.ViewModels
             await _navigationService.NavigateToStudentCourseDetails(course);
         }
 
-        private async void LoadEnrolledCourses()
+        private async Task LoadEnrolledCoursesAsync()
         {
-            var allCourses = await _apiService.GetAllCoursesAsync();  // Fetch courses from API
-            EnrolledCourses = new ObservableCollection<Course>(
-                allCourses.Where(c => c.Roster.Any(s => s.StudentId == _student.StudentId))
-            );
+            var enrolledCourses = await _apiService.GetEnrolledCoursesForStudentAsync(_student.StudentId);
+            EnrolledCourses = new ObservableCollection<Course>(enrolledCourses);
         }
     }
 }

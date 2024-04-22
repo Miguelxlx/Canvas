@@ -55,12 +55,9 @@ namespace CanvasRemake.Services
             await Shell.Current.GoToAsync(nameof(LinkStudentsView));
         }
 
-        public async Task NavigateToInstructorCourseDetails(Course course)
+        public async Task NavigateToInstructorCourseDetails(string courseCode)
         {
-            var parameters = new Dictionary<string, object>
-            {
-                { "course", course }
-            };
+            var parameters = new Dictionary<string, object> { { "courseCode", courseCode } };
             await Shell.Current.GoToAsync($"{nameof(InstructorCourseDetailsView)}", parameters);
         }
 

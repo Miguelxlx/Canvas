@@ -9,29 +9,34 @@ namespace CanvasRemake.ViewModels
     public partial class AddModuleViewModel : ObservableObject
     {
         private readonly INavigationService _navigationService;
-        private Course _course;
+        private readonly ApiService _apiService;
+        private string _courseCode;
 
-        [ObservableProperty] private string moduleName;
-        [ObservableProperty] private string moduleDescription;
+        [ObservableProperty]
+        private string moduleName;
+
+        [ObservableProperty]
+        private string moduleDescription;
+
         public ObservableCollection<ContentItem> ContentItems { get; } = new();
 
-        public AddModuleViewModel(Course course, INavigationService navigationService)
+        public AddModuleViewModel(INavigationService navigationService, ApiService apiService)
         {
-            _course = course;
             _navigationService = navigationService;
+            _apiService = apiService;
             AddContentItemCommand = new RelayCommand(AddContentItem);
             RemoveContentItemCommand = new RelayCommand<ContentItem>(RemoveContentItem);
-            SaveCommand = new RelayCommand(OnSave);
+            SaveCommand = new AsyncRelayCommand(OnSaveAsync);
         }
 
-        public void Initialize(Course course)
+        public void Initialize(string courseCode)
         {
-            _course = course;
+            _courseCode = courseCode;
         }
 
         public IRelayCommand AddContentItemCommand { get; }
         public IRelayCommand<ContentItem> RemoveContentItemCommand { get; }
-        public IRelayCommand SaveCommand { get; }
+        public IAsyncRelayCommand SaveCommand { get; }
 
         private void AddContentItem()
         {
@@ -46,14 +51,8 @@ namespace CanvasRemake.ViewModels
             }
         }
 
-        private async void OnSave()
+        private async Task OnSaveAsync()
         {
-            if (_course == null)
-            {
-                await _navigationService.GoBackAsync();
-                return;
-            }
-
             var module = new Module
             {
                 Name = ModuleName,
@@ -61,7 +60,7 @@ namespace CanvasRemake.ViewModels
                 ContentItems = new ObservableCollection<ContentItem>(ContentItems)
             };
 
-            _course.Modules.Add(module);
+            await _apiService.AddModuleToCourseAsync(_courseCode, module);
             await _navigationService.GoBackAsync();
         }
     }

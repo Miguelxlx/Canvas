@@ -8,6 +8,8 @@ namespace CanvasRemake.ViewModels
     public partial class AddCourseViewModel : ObservableObject
     {
         private readonly INavigationService _navigationService;
+        private readonly ApiService _apiService;
+
         [ObservableProperty]
         private string courseName;
 
@@ -17,33 +19,35 @@ namespace CanvasRemake.ViewModels
         [ObservableProperty]
         private string courseDescription;
 
-        public AddCourseViewModel(INavigationService navigationService)
+        public AddCourseViewModel(INavigationService navigationService, ApiService apiService)
         {
             _navigationService = navigationService;
-            SaveCommand = new RelayCommand(OnSave);
+            _apiService = apiService;
+            SaveCommand = new AsyncRelayCommand(OnSaveAsync);
         }
 
+        public IAsyncRelayCommand SaveCommand { get; }
 
-
-        public IRelayCommand SaveCommand { get; }
-
-        private async void OnSave()
+        private async Task OnSaveAsync()
         {
-            if (!IsCourseCodeExists(CourseCode))
+            var newCourse = new Course
             {
-                var newCourse = new Course(CourseName, CourseCode, CourseDescription);
-                App.Courses.Add(newCourse);
+                Name = CourseName,
+                Code = CourseCode,
+                Description = CourseDescription
+            };
+
+            bool isAdded = await _apiService.AddCourseAsync(newCourse);
+
+            if (isAdded)
+            {
+                MessagingCenter.Send<AddCourseViewModel>(this, "CourseAdded");
                 await _navigationService.GoBackAsync();
             }
             else
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Course Code already exists", "OK");
+                await App.Current.MainPage.DisplayAlert("Error", "Failed to add course", "OK");
             }
-        }
-
-        private bool IsCourseCodeExists(string courseCode)
-        {
-            return App.Courses.Any(course => course.Code == courseCode);
         }
     }
 }
