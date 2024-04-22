@@ -39,7 +39,7 @@ namespace CanvasRemake.ViewModels
                 Console.WriteLine("Grade: " + _assignment.Submissions[i].Grade);
             }
 
-            var existingSubmission = _assignment.Submissions.FirstOrDefault(s => s.StudentId == _student.ID);
+            var existingSubmission = _assignment.Submissions.FirstOrDefault(s => s.StudentId == _student.StudentId);
 
             if (existingSubmission != null)
             {
@@ -55,7 +55,7 @@ namespace CanvasRemake.ViewModels
                 {
 
                     AssignmentId = _assignment.Id,
-                    StudentId = _student.ID,
+                    StudentId = _student.StudentId,
                     SubmissionText = SubmissionText,
                     SubmissionDate = DateTime.Now,
                     SubmissionId = Guid.NewGuid().ToString()

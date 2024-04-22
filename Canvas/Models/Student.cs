@@ -1,18 +1,26 @@
+using System;
+using System.Text.Json.Serialization; // Make sure to have this using directive
+
 namespace CanvasRemake.Models
 {
     public class Student
     {
-        public string Name { get; set; } = string.Empty;
-        public string ID { get; set; } = string.Empty;
+        [JsonPropertyName("studentId")]
+        public string StudentId { get; set; } = string.Empty;
 
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = string.Empty;
+
+        [JsonPropertyName("classification")]
         public string Classification { get; set; }
 
-        public Student(string name, string id, string classification)
+        public Student() { }
+
+        public Student(string name, string studentId, string classification)
         {
             Name = name;
-            ID = id;
+            StudentId = studentId;
             Classification = classification;
         }
-
     }
 }

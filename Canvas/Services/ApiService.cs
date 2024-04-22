@@ -3,16 +3,23 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using CanvasRemake.Models;
 using System.Collections.ObjectModel;
+using System.Text.Json;
+using System.Diagnostics;
 
 namespace CanvasRemake.Services
 {
     public class ApiService
     {
         private readonly HttpClient _client;
+        private readonly JsonSerializerOptions _options;
 
         public ApiService(HttpClient client)
         {
             _client = client;
+            _options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true // Adjust case sensitivity
+            };
         }
 
         public async Task<ObservableCollection<Course>> GetCoursesAsync()
@@ -26,7 +33,7 @@ namespace CanvasRemake.Services
         {
             var response = await _client.GetAsync("api/students");
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<ObservableCollection<Student>>();
+            return await response.Content.ReadFromJsonAsync<ObservableCollection<Student>>(_options);
         }
 
         // Fetch all courses
@@ -51,8 +58,18 @@ namespace CanvasRemake.Services
         // Add a new student
         public async Task<bool> AddStudentAsync(Student student)
         {
-            var response = await _client.PostAsJsonAsync("api/students", student);
-            return response.IsSuccessStatusCode;
+            try
+            {
+                var response = await _client.PostAsJsonAsync("api/students", student);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                // Log or handle exceptions
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+                return false;
+            }
         }
+
     }
 }

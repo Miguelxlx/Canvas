@@ -13,7 +13,7 @@ namespace CanvasRemake
         {
             string studentId = StudentIdEntry.Text;
 
-            var student = App.Students.FirstOrDefault(s => s.ID == studentId);
+            var student = App.Students.FirstOrDefault(s => s.StudentId == studentId);
 
             if (student != null)
             {

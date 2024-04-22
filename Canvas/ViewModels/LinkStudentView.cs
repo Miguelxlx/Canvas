@@ -26,7 +26,7 @@ namespace CanvasRemake.ViewModels
         private async void OnLinkStudent()
         {
             var course = App.Courses.FirstOrDefault(c => c.Code == CourseCode);
-            var student = App.Students.FirstOrDefault(s => s.ID == StudentId);
+            var student = App.Students.FirstOrDefault(s => s.StudentId == StudentId);
 
             if (course != null && student != null)
             {
@@ -52,7 +52,7 @@ namespace CanvasRemake.ViewModels
         private async void OnRemoveStudent()
         {
             var course = App.Courses.FirstOrDefault(c => c.Code == CourseCode);
-            var student = App.Students.FirstOrDefault(s => s.ID == StudentId);
+            var student = App.Students.FirstOrDefault(s => s.StudentId == StudentId);
 
             if (course != null && student != null)
             {

@@ -40,7 +40,7 @@ namespace CanvasRemake.ViewModels
         {
             var allCourses = await _apiService.GetAllCoursesAsync();  // Fetch courses from API
             EnrolledCourses = new ObservableCollection<Course>(
-                allCourses.Where(c => c.Roster.Any(s => s.ID == _student.ID))
+                allCourses.Where(c => c.Roster.Any(s => s.StudentId == _student.StudentId))
             );
         }
     }

@@ -22,7 +22,7 @@ namespace CanvasRemake.Views
             if (!string.IsNullOrEmpty(AssignmentId) && !string.IsNullOrEmpty(StudentId))
             {
                 var assignment = App.Courses.SelectMany(c => c.Assignments).FirstOrDefault(a => a.Id == AssignmentId);
-                var student = App.Students.FirstOrDefault(s => s.ID == StudentId);
+                var student = App.Students.FirstOrDefault(s => s.StudentId == StudentId);
 
                 if (assignment != null && student != null)
                 {

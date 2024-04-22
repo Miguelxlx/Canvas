@@ -32,7 +32,7 @@
                     <ViewCell>
                         <StackLayout Orientation="Horizontal">
                             <Label Text="{Binding Name}" />
-                            <Label Text="{Binding ID}" />
+                            <Label Text="{Binding StudentId}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
