@@ -1,14 +1,16 @@
 ﻿using System.Collections.ObjectModel;
 using CanvasRemake.Models;
 using CanvasRemake.Views;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using CanvasRemake.Services;
 
 namespace CanvasRemake
 {
 	public partial class App : Application
 	{
 		public static IServiceProvider ServiceProvider { get; set; }
-		public static ObservableCollection<Course> Courses { get; set; } = new ObservableCollection<Course>();
-		public static ObservableCollection<Student> Students { get; set; } = new ObservableCollection<Student>();
+		public static ObservableCollection<Course> Courses { get; set; }
+		public static ObservableCollection<Student> Students { get; set; }
 		public static ObservableCollection<AssignmentSubmission> AssignmentSubmissions { get; set; } = new ObservableCollection<AssignmentSubmission>();
 		public static Student LoggedInStudent { get; set; }
 
@@ -29,28 +31,22 @@ namespace CanvasRemake
 			Routing.RegisterRoute(nameof(SearchCourseView), typeof(SearchCourseView));
 
 			MainPage = new AppShell();
+			LoadDataAsync();
+		}
 
-			Courses = new ObservableCollection<Course>
-			{
-				new Course("Math 101", "MATH101", "Introduction to Mathematics"),
-				new Course("English 101", "ENG101", "English Composition"),
-				new Course("History 101", "HIST101", "World History")
-			};
+		private async void LoadDataAsync()
+		{
+			var apiService = ServiceProvider.GetService<ApiService>();
+			Courses = await apiService.GetCoursesAsync();
+			Students = await apiService.GetStudentsAsync();
+			// Assume a method to configure LoggedInStudent or handle it appropriately
+			SetupLoggedInStudent();
+		}
 
-			Students = new ObservableCollection<Student>
-			{
-				new Student("John Doe", "S001", "Freshman"),
-				new Student("Jane Smith", "S002", "Sophomore"),
-				new Student("Mike Johnson", "S003", "Junior")
-			};
-
-			App.Courses[0].Roster.Add(App.Students[0]);
-			App.Courses[1].Roster.Add(App.Students[0]);
-			App.Courses[0].Roster.Add(App.Students[1]);
-			App.Courses[0].Assignments.Add(new Assignment("Assignment 1", "Assignment 1 description", 100, DateTime.Today));
-			App.Courses[0].Modules.Add(new Module("Module 1", "Module 1 description"));
-
-			App.LoggedInStudent = App.Students[0];
+		private void SetupLoggedInStudent()
+		{
+			// This would be dynamic based on actual app logic
+			LoggedInStudent = Students.FirstOrDefault();
 		}
 	}
 }
