@@ -23,7 +23,7 @@ namespace CanvasRemake.Views
             if (e.SelectedItem != null)
             {
                 var course = (Course)e.SelectedItem;
-                await _navigationService.NavigateToStudentCourseDetails(course);
+                await _navigationService.NavigateToStudentCourseDetails(course.Code);
             }
         }
     }

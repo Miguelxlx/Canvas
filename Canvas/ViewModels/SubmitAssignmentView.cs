@@ -2,80 +2,56 @@ using CanvasRemake.Models;
 using CanvasRemake.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Diagnostics;
 
 namespace CanvasRemake.ViewModels
 {
     public partial class SubmitAssignmentViewModel : ObservableObject
     {
         private readonly INavigationService _navigationService;
+        private readonly ApiService _apiService;
         private readonly Assignment _assignment;
         private readonly Student _student;
 
-        public SubmitAssignmentViewModel(Assignment assignment, Student student, INavigationService navigationService)
+        public SubmitAssignmentViewModel(Assignment assignment, Student student, INavigationService navigationService, ApiService apiService)
         {
             _assignment = assignment;
             _student = student;
             _navigationService = navigationService;
+            _apiService = apiService;
+            SubmitCommand = new AsyncRelayCommand(SubmitAsync);
         }
 
         public Assignment Assignment => _assignment;
-
         public string StudentName => _student.Name;
 
         [ObservableProperty]
         string submissionText;
-
-        [RelayCommand]
-        async Task Submit()
+        public IAsyncRelayCommand SubmitCommand { get; }
+        private async Task SubmitAsync()
         {
-            Console.WriteLine("SUBMISSIONS-PRE: ");
-            for (int i = 0; i < _assignment.Submissions.Count; i++)
+            var submission = new AssignmentSubmission
             {
-                Console.WriteLine("Submission Text: " + _assignment.Submissions[i].SubmissionText);
-                Console.WriteLine("Submission Date: " + _assignment.Submissions[i].SubmissionDate);
-                Console.WriteLine("Student ID: " + _assignment.Submissions[i].StudentId);
-                Console.WriteLine("Assignment ID: " + _assignment.Submissions[i].AssignmentId);
-                Console.WriteLine("Submission ID: " + _assignment.Submissions[i].SubmissionId);
-                Console.WriteLine("Grade: " + _assignment.Submissions[i].Grade);
-            }
+                AssignmentId = _assignment.Id,
+                StudentId = _student.StudentId,
+                SubmissionText = SubmissionText,
+                SubmissionDate = DateTime.Now,
+                SubmissionId = Guid.NewGuid().ToString(),
+                Grade = 0.0,
+                IsGraded = false
+            };
 
-            var existingSubmission = _assignment.Submissions.FirstOrDefault(s => s.StudentId == _student.StudentId);
-
-            if (existingSubmission != null)
+            try
             {
-                // Update existing submission
-                existingSubmission.SubmissionText = SubmissionText;
-                existingSubmission.SubmissionDate = DateTime.Now;
-                existingSubmission.Grade = 0;
+                await _apiService.SubmitAssignmentAsync(submission);
+                await _navigationService.GoBackAsync();
             }
-            else
+            catch (Exception ex)
             {
-                // Create new submission
-                var submission = new AssignmentSubmission
-                {
-
-                    AssignmentId = _assignment.Id,
-                    StudentId = _student.StudentId,
-                    SubmissionText = SubmissionText,
-                    SubmissionDate = DateTime.Now,
-                    SubmissionId = Guid.NewGuid().ToString()
-                };
-
-                _assignment.Submissions.Add(submission);
+                // Display an error message to the user
+                await Application.Current.MainPage.DisplayAlert("Error", "Failed to submit the assignment. Please try again.", "OK");
+                Debug.WriteLine($"An error occurred: {ex.Message}");
             }
-
-            Console.WriteLine("SUBMISSIONS: ");
-            for (int i = 0; i < _assignment.Submissions.Count; i++)
-            {
-                Console.WriteLine("Submission Text: " + _assignment.Submissions[i].SubmissionText);
-                Console.WriteLine("Submission Date: " + _assignment.Submissions[i].SubmissionDate);
-                Console.WriteLine("Student ID: " + _assignment.Submissions[i].StudentId);
-                Console.WriteLine("Assignment ID: " + _assignment.Submissions[i].AssignmentId);
-                Console.WriteLine("Submission ID: " + _assignment.Submissions[i].SubmissionId);
-                Console.WriteLine("Grade: " + _assignment.Submissions[i].Grade);
-            }
-
-            await _navigationService.GoBackAsync();
         }
     }
 }

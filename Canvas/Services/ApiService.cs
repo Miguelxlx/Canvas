@@ -38,12 +38,6 @@ namespace CanvasRemake.Services
             return await response.Content.ReadFromJsonAsync<ObservableCollection<Student>>(_options);
         }
 
-        // Fetch all courses
-        public async Task<Course[]> GetAllCoursesAsync()
-        {
-            return await _client.GetFromJsonAsync<Course[]>("api/courses");
-        }
-
         // Add a new course
         public async Task<bool> AddCourseAsync(Course course)
         {
@@ -58,12 +52,6 @@ namespace CanvasRemake.Services
                 Debug.WriteLine($"An error occurred: {ex.Message}");
                 return false;
             }
-        }
-
-        // Fetch all students
-        public async Task<Student[]> GetAllStudentsAsync()
-        {
-            return await _client.GetFromJsonAsync<Student[]>("api/students");
         }
 
         // Add a new student
@@ -163,6 +151,55 @@ namespace CanvasRemake.Services
             catch (Exception ex)
             {
                 Debug.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task SubmitAssignmentAsync(AssignmentSubmission submission)
+        {
+            try
+            {
+                var response = await _client.PostAsJsonAsync("api/assignmentsubmissions", submission);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<Assignment> GetAssignmentByIdAsync(string assignmentId)
+        {
+            try
+            {
+                var response = await _client.GetAsync($"api/assignmentcontrollers/{assignmentId}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<Assignment>();
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<Student> GetStudentByIdAsync(string studentId)
+        {
+            try
+            {
+                var response = await _client.GetAsync($"api/students/{studentId}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<Student>();
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+                return null;
             }
         }
 

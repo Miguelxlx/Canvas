@@ -12,7 +12,7 @@ namespace CanvasRemake.Services
         Task NavigateToAddCourse();
         Task NavigateToLinkStudents();
         Task NavigateToInstructorCourseDetails(string course);
-        Task NavigateToStudentCourseDetails(Course course);
+        Task NavigateToStudentCourseDetails(string course);
         Task NavigateToSubmitAssignment(string assignmentId, string studentId);
         Task NavigateToAssignmentSubmissions(Assignment assignment);
         Task NavigateToSearchStudent();

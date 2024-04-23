@@ -7,15 +7,18 @@ namespace CanvasRemake.ViewModels
     public partial class StudentCourseDetailsViewModel : ObservableObject
     {
         private readonly INavigationService _navigationService;
+        private readonly ApiService _apiService;
         private readonly Course _course;
         private readonly Student _student;
+
         public string StudentId => _student.StudentId;
 
-        public StudentCourseDetailsViewModel(Course course, Student student, INavigationService navigationService)
+        public StudentCourseDetailsViewModel(Course course, Student student, INavigationService navigationService, ApiService apiService)
         {
             _course = course;
             _student = student;
             _navigationService = navigationService;
+            _apiService = apiService;
         }
 
         public Course Course => _course;

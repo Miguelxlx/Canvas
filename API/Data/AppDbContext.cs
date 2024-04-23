@@ -12,6 +12,9 @@ namespace API.Data
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Module> Modules { get; set; }
         public DbSet<ContentItem> ContentItems { get; set; }
+        public DbSet<AssignmentSubmission> AssignmentSubmissions { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

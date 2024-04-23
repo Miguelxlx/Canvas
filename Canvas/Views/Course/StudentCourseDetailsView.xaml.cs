@@ -4,17 +4,18 @@ using CanvasRemake.Services;
 
 namespace CanvasRemake.Views
 {
-    [QueryProperty("Course", "course")]
+    [QueryProperty(nameof(courseCode), "courseCode")]
     public partial class StudentCourseDetailsView : ContentPage
     {
         private StudentCourseDetailsViewModel _viewModel;
-
-        public Course Course { get; set; }
+        public string courseCode { get; set; }
 
         public StudentCourseDetailsView()
         {
             InitializeComponent();
         }
+
+
 
         protected override void OnAppearing()
         {
@@ -28,10 +29,12 @@ namespace CanvasRemake.Views
             RefreshViewModel();
         }
 
-        private void RefreshViewModel()
+        private async void RefreshViewModel()
         {
             var navigationService = App.ServiceProvider.GetService<INavigationService>();
-            _viewModel = new StudentCourseDetailsViewModel(Course, App.LoggedInStudent, navigationService);
+            var apiService = App.ServiceProvider.GetService<ApiService>();
+            var course = await apiService.GetCourseDetailsAsync(courseCode);
+            _viewModel = new StudentCourseDetailsViewModel(course, App.LoggedInStudent, navigationService, apiService);
             BindingContext = _viewModel;
         }
 

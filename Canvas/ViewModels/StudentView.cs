@@ -33,7 +33,7 @@ namespace CanvasRemake.ViewModels
 
         private async Task OnCourseSelectedAsync(Course course)
         {
-            await _navigationService.NavigateToStudentCourseDetails(course);
+            await _navigationService.NavigateToStudentCourseDetails(course.Code);
         }
 
         private async Task LoadEnrolledCoursesAsync()

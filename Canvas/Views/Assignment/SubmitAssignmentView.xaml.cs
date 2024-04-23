@@ -1,5 +1,6 @@
 using CanvasRemake.ViewModels;
 using CanvasRemake.Services;
+using CanvasRemake.Models;
 
 namespace CanvasRemake.Views
 {
@@ -15,19 +16,21 @@ namespace CanvasRemake.Views
             InitializeComponent();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
 
             if (!string.IsNullOrEmpty(AssignmentId) && !string.IsNullOrEmpty(StudentId))
             {
-                var assignment = App.Courses.SelectMany(c => c.Assignments).FirstOrDefault(a => a.Id == AssignmentId);
-                var student = App.Students.FirstOrDefault(s => s.StudentId == StudentId);
+                var navigationService = App.ServiceProvider.GetService<INavigationService>();
+                var apiService = App.ServiceProvider.GetService<ApiService>();
+
+                var assignment = await apiService.GetAssignmentByIdAsync(AssignmentId);
+                var student = await apiService.GetStudentByIdAsync(StudentId);
 
                 if (assignment != null && student != null)
                 {
-                    var navigationService = App.ServiceProvider.GetService<INavigationService>();
-                    BindingContext = new SubmitAssignmentViewModel(assignment, student, navigationService);
+                    BindingContext = new SubmitAssignmentViewModel(assignment, student, navigationService, apiService);
                 }
             }
         }
