@@ -1,33 +1,23 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:CanvasRemake.Views"
              x:Class="CanvasRemake.Views.AssignmentSubmissionsView"
              Title="Assignment Submissions">
     <StackLayout Padding="20">
         <Label Text="{Binding Assignment.Name}" FontSize="24" />
         <Label Text="{Binding Assignment.DueDate, StringFormat='Due: {0:d}'}" FontSize="18" />
-
-        <ListView ItemsSource="{Binding Assignment.Submissions}">
+        <ListView ItemsSource="{Binding Submissions}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid Padding="10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-
+                        <StackLayout Padding="10">
                             <Label Text="{Binding StudentId}" FontAttributes="Bold" />
-                            <Label Grid.Row="1" Text="{Binding SubmissionText}" FontSize="12" />
-
-                            <StackLayout Grid.Column="1" Spacing="5">
-                                <Label Text="Grade:" FontSize="12" />
-                                <Entry Text="{Binding Grade}" Keyboard="Numeric" WidthRequest="60" />
+                            <Label Text="{Binding SubmissionText}" FontSize="12" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Grade:" FontSize="12" VerticalOptions="Center" />
+                                <Entry Text="{Binding Grade, Mode=TwoWay}" Keyboard="Numeric" WidthRequest="60" VerticalOptions="Center" />
                             </StackLayout>
-                        </Grid>
+                        </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -14,7 +14,7 @@ namespace CanvasRemake.Services
         Task NavigateToInstructorCourseDetails(string course);
         Task NavigateToStudentCourseDetails(string course);
         Task NavigateToSubmitAssignment(string assignmentId, string studentId);
-        Task NavigateToAssignmentSubmissions(Assignment assignment);
+        Task NavigateToAssignmentSubmissions(Dictionary<string, object> parameters);
         Task NavigateToSearchStudent();
         Task NavigateToSearchCourse();
     }

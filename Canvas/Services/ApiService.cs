@@ -203,5 +203,36 @@ namespace CanvasRemake.Services
             }
         }
 
+        public async Task<ObservableCollection<AssignmentSubmission>> GetSubmissionsForAssignmentAsync(string assignmentId)
+        {
+            try
+            {
+                var response = await _client.GetAsync($"api/assignmentsubmissions/assignment/{assignmentId}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<ObservableCollection<AssignmentSubmission>>();
+                }
+                return new ObservableCollection<AssignmentSubmission>();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+                return new ObservableCollection<AssignmentSubmission>();
+            }
+        }
+
+        public async Task GradeSubmissionAsync(AssignmentSubmission submission)
+        {
+            try
+            {
+                var response = await _client.PutAsJsonAsync($"api/assignmentsubmissions/{submission.SubmissionId}", submission);
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+
     }
 }

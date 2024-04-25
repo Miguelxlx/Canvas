@@ -1,12 +1,12 @@
 using CanvasRemake.ViewModels;
-using CanvasRemake.Models;
+using CanvasRemake.Services;
 
 namespace CanvasRemake.Views
 {
-    [QueryProperty("Assignment", "assignment")]
+    [QueryProperty("AssignmentId", "assignmentId")]
     public partial class AssignmentSubmissionsView : ContentPage
     {
-        public Assignment Assignment { get; set; }
+        public string AssignmentId { get; set; }
 
         public AssignmentSubmissionsView()
         {
@@ -16,7 +16,8 @@ namespace CanvasRemake.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            BindingContext = new AssignmentSubmissionsViewModel(Assignment);
+            var apiService = App.ServiceProvider.GetService<ApiService>();
+            BindingContext = new AssignmentSubmissionsViewModel(AssignmentId, apiService);
         }
     }
 }

@@ -41,17 +41,49 @@ namespace API.Controllers
             return submission;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AssignmentSubmission>> GetAssignmentSubmission(string id)
-        {
-            var submission = await _context.AssignmentSubmissions.FindAsync(id);
 
-            if (submission == null)
+        [HttpGet("assignment/{assignmentId}")]
+        public async Task<ActionResult<IEnumerable<AssignmentSubmission>>> GetSubmissionsForAssignment(string assignmentId)
+        {
+            var submissions = await _context.AssignmentSubmissions
+                .Where(s => s.AssignmentId == assignmentId)
+                .ToListAsync();
+
+            return submissions;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> GradeSubmission(string id, AssignmentSubmission submission)
+        {
+            if (id != submission.SubmissionId)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            return submission;
+            _context.Entry(submission).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SubmissionExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        private bool SubmissionExists(string id)
+        {
+            return _context.AssignmentSubmissions.Any(s => s.SubmissionId == id);
         }
     }
 

@@ -60,7 +60,11 @@ namespace CanvasRemake.ViewModels
         {
             if (assignment != null)
             {
-                await _navigationService.NavigateToAssignmentSubmissions(assignment);
+                var parameters = new Dictionary<string, object>
+        {
+            { "assignmentId", assignment.Id }
+        };
+                await _navigationService.NavigateToAssignmentSubmissions(parameters);
             }
         }
     }
