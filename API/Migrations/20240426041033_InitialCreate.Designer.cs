@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Course.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240422105113_InitialModelSetup")]
-    partial class InitialModelSetup
+    [Migration("20240426041033_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,7 +71,7 @@ namespace Course.API.Migrations
 
                     b.Property<string>("StudentId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("SubmissionDate")
                         .HasColumnType("datetime2");
@@ -84,9 +84,7 @@ namespace Course.API.Migrations
 
                     b.HasIndex("AssignmentId");
 
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("AssignmentSubmission");
+                    b.ToTable("AssignmentSubmissions");
                 });
 
             modelBuilder.Entity("API.Models.ContentItem", b =>
@@ -175,18 +173,28 @@ namespace Course.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CourseInfoCourseId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StudentId");
 
-                    b.HasIndex("CourseInfoCourseId");
-
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("CourseInfoStudent", b =>
+                {
+                    b.Property<int>("CourseInfoCourseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RosterStudentId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("CourseInfoCourseId", "RosterStudentId");
+
+                    b.HasIndex("RosterStudentId");
+
+                    b.ToTable("CourseStudentEnrollment", (string)null);
                 });
 
             modelBuilder.Entity("API.Models.Assignment", b =>
@@ -198,21 +206,11 @@ namespace Course.API.Migrations
 
             modelBuilder.Entity("API.Models.AssignmentSubmission", b =>
                 {
-                    b.HasOne("API.Models.Assignment", "Assignment")
+                    b.HasOne("API.Models.Assignment", null)
                         .WithMany("Submissions")
                         .HasForeignKey("AssignmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("API.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Assignment");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("API.Models.ContentItem", b =>
@@ -229,11 +227,19 @@ namespace Course.API.Migrations
                         .HasForeignKey("CourseInfoCourseId");
                 });
 
-            modelBuilder.Entity("API.Models.Student", b =>
+            modelBuilder.Entity("CourseInfoStudent", b =>
                 {
                     b.HasOne("API.Models.CourseInfo", null)
-                        .WithMany("Roster")
-                        .HasForeignKey("CourseInfoCourseId");
+                        .WithMany()
+                        .HasForeignKey("CourseInfoCourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Models.Student", null)
+                        .WithMany()
+                        .HasForeignKey("RosterStudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("API.Models.Assignment", b =>
@@ -246,8 +252,6 @@ namespace Course.API.Migrations
                     b.Navigation("Assignments");
 
                     b.Navigation("Modules");
-
-                    b.Navigation("Roster");
                 });
 
             modelBuilder.Entity("API.Models.Module", b =>

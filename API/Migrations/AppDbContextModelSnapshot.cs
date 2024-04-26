@@ -68,7 +68,7 @@ namespace Course.API.Migrations
 
                     b.Property<string>("StudentId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("SubmissionDate")
                         .HasColumnType("datetime2");
@@ -80,8 +80,6 @@ namespace Course.API.Migrations
                     b.HasKey("SubmissionId");
 
                     b.HasIndex("AssignmentId");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("AssignmentSubmissions");
                 });
@@ -205,21 +203,11 @@ namespace Course.API.Migrations
 
             modelBuilder.Entity("API.Models.AssignmentSubmission", b =>
                 {
-                    b.HasOne("API.Models.Assignment", "Assignment")
+                    b.HasOne("API.Models.Assignment", null)
                         .WithMany("Submissions")
                         .HasForeignKey("AssignmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("API.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Assignment");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("API.Models.ContentItem", b =>

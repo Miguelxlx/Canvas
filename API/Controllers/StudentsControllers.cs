@@ -99,5 +99,16 @@ namespace API.Controllers
 
             return enrolledCourses;
         }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Student>>> SearchStudents(string searchText)
+        {
+            var students = await _context.Students
+                .Where(s => s.Name.Contains(searchText))
+                .ToListAsync();
+
+            return students;
+        }
+
     }
 }

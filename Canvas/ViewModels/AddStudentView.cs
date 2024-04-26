@@ -2,7 +2,6 @@ using CanvasRemake.Models;
 using CanvasRemake.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Diagnostics;
 
 namespace CanvasRemake.ViewModels
 {

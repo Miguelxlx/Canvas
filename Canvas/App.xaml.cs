@@ -34,18 +34,16 @@ namespace CanvasRemake
 			LoadDataAsync();
 		}
 
-		private async void LoadDataAsync()
+		public async void LoadDataAsync()
 		{
 			var apiService = ServiceProvider.GetService<ApiService>();
 			Courses = await apiService.GetCoursesAsync();
 			Students = await apiService.GetStudentsAsync();
-			// Assume a method to configure LoggedInStudent or handle it appropriately
 			SetupLoggedInStudent();
 		}
 
 		private void SetupLoggedInStudent()
 		{
-			// This would be dynamic based on actual app logic
 			LoggedInStudent = Students.FirstOrDefault();
 		}
 	}

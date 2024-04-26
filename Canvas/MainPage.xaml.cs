@@ -1,4 +1,5 @@
 ﻿using CanvasRemake.Views;
+using CanvasRemake.Services;
 
 namespace CanvasRemake
 {
@@ -12,7 +13,8 @@ namespace CanvasRemake
         private async void OnStudentViewClicked(object sender, EventArgs e)
         {
             string studentId = StudentIdEntry.Text;
-
+            //pull from database
+            App.Students = await App.ServiceProvider.GetService<ApiService>().GetStudentsAsync();
             var student = App.Students.FirstOrDefault(s => s.StudentId == studentId);
 
             if (student != null)

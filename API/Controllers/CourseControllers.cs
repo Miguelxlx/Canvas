@@ -1,10 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using API.Data;
 using API.Models;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;  // Ensure this is added if using LINQ for any method like .Any()
 
 namespace API.Controllers
 {
@@ -44,7 +41,6 @@ namespace API.Controllers
             return CreatedAtAction(nameof(GetCourse), new { id = course.CourseId }, course);
         }
 
-        // PUT: api/Courses/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCourse(int id, CourseInfo course)
         {
@@ -173,6 +169,16 @@ namespace API.Controllers
             await _context.SaveChangesAsync();
 
             return assignment;
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<CourseInfo>>> SearchCourses(string searchText)
+        {
+            var courses = await _context.Courses
+                .Where(c => c.Name.Contains(searchText) || c.Description.Contains(searchText))
+                .ToListAsync();
+
+            return courses;
         }
     }
 }

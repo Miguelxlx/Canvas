@@ -9,6 +9,7 @@ namespace CanvasRemake.ViewModels
     public partial class SearchStudentViewModel : ObservableObject
     {
         private readonly INavigationService _navigationService;
+        private readonly ApiService _apiService;
 
         [ObservableProperty]
         private ObservableCollection<Student> searchResults;
@@ -16,19 +17,19 @@ namespace CanvasRemake.ViewModels
         [ObservableProperty]
         private string searchText;
 
-        public SearchStudentViewModel(INavigationService navigationService)
+        public SearchStudentViewModel(INavigationService navigationService, ApiService apiService)
         {
             _navigationService = navigationService;
+            _apiService = apiService;
             SearchResults = new ObservableCollection<Student>();
-            SearchCommand = new RelayCommand(SearchStudents);
+            SearchCommand = new AsyncRelayCommand(SearchStudentsAsync);
         }
 
-        public IRelayCommand SearchCommand { get; }
+        public IAsyncRelayCommand SearchCommand { get; }
 
-        private void SearchStudents()
+        private async Task SearchStudentsAsync()
         {
-            // Example search logic (replace with actual logic)
-            var results = App.Students.Where(student => student.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase)).ToList();
+            var results = await _apiService.SearchStudentsAsync(SearchText);
             SearchResults.Clear();
             foreach (var student in results)
             {

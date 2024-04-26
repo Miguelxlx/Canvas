@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CanvasRemake.Models;
 using CanvasRemake.Services;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace CanvasRemake.ViewModels
 {
@@ -60,6 +59,7 @@ namespace CanvasRemake.ViewModels
         partial void OnGradeChanged(double value)
         {
             Submission.Grade = value;
+            Submission.IsGraded = true;
             SaveGradeAsync();
         }
 

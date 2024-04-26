@@ -1,12 +1,8 @@
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 using CanvasRemake.Models;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Diagnostics;
-using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace CanvasRemake.Services
 {
@@ -20,7 +16,7 @@ namespace CanvasRemake.Services
             _client = client;
             _options = new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true // Adjust case sensitivity
+                PropertyNameCaseInsensitive = true
             };
         }
 
@@ -231,6 +227,36 @@ namespace CanvasRemake.Services
             catch (Exception ex)
             {
                 Debug.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+
+        public async Task<IEnumerable<Student>> SearchStudentsAsync(string searchText)
+        {
+            try
+            {
+                var response = await _client.GetAsync($"api/students/search?searchText={searchText}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<IEnumerable<Student>>();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+                return Enumerable.Empty<Student>();
+            }
+        }
+
+        public async Task<IEnumerable<Course>> SearchCoursesAsync(string searchText)
+        {
+            try
+            {
+                var response = await _client.GetAsync($"api/courses/search?searchText={searchText}");
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<IEnumerable<Course>>();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"An error occurred: {ex.Message}");
+                return Enumerable.Empty<Course>();
             }
         }
 

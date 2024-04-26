@@ -11,7 +11,8 @@ namespace CanvasRemake.Views
         {
             InitializeComponent();
             _navigationService = App.ServiceProvider.GetService<INavigationService>();
-            BindingContext = new SearchCourseViewModel(_navigationService);
+            var apiService = App.ServiceProvider.GetService<ApiService>();
+            BindingContext = new SearchCourseViewModel(_navigationService, apiService);
         }
 
         private async void OnCourseSelected(object sender, SelectedItemChangedEventArgs e)

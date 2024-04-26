@@ -1,5 +1,3 @@
-// File: Canvas/ViewModels/InstructorViewModel.cs
-
 using System.Collections.ObjectModel;
 using CanvasRemake.Models;
 using CanvasRemake.Services;

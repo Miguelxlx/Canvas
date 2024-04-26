@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Course.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialModelSetup : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,6 +24,19 @@ namespace Course.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Courses", x => x.CourseId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Classification = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.StudentId);
                 });
 
             migrationBuilder.CreateTable(
@@ -68,22 +81,50 @@ namespace Course.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Students",
+                name: "CourseStudentEnrollment",
                 columns: table => new
                 {
-                    StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Classification = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CourseInfoCourseId = table.Column<int>(type: "int", nullable: true)
+                    CourseInfoCourseId = table.Column<int>(type: "int", nullable: false),
+                    RosterStudentId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Students", x => x.StudentId);
+                    table.PrimaryKey("PK_CourseStudentEnrollment", x => new { x.CourseInfoCourseId, x.RosterStudentId });
                     table.ForeignKey(
-                        name: "FK_Students_Courses_CourseInfoCourseId",
+                        name: "FK_CourseStudentEnrollment_Courses_CourseInfoCourseId",
                         column: x => x.CourseInfoCourseId,
                         principalTable: "Courses",
-                        principalColumn: "CourseId");
+                        principalColumn: "CourseId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CourseStudentEnrollment_Students_RosterStudentId",
+                        column: x => x.RosterStudentId,
+                        principalTable: "Students",
+                        principalColumn: "StudentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AssignmentSubmissions",
+                columns: table => new
+                {
+                    SubmissionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StudentId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AssignmentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SubmissionText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubmissionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Grade = table.Column<double>(type: "float", nullable: false),
+                    IsGraded = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AssignmentSubmissions", x => x.SubmissionId);
+                    table.ForeignKey(
+                        name: "FK_AssignmentSubmissions_Assignments_AssignmentId",
+                        column: x => x.AssignmentId,
+                        principalTable: "Assignments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,49 +147,15 @@ namespace Course.API.Migrations
                         principalColumn: "ModuleId");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "AssignmentSubmission",
-                columns: table => new
-                {
-                    SubmissionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AssignmentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SubmissionText = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SubmissionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Grade = table.Column<double>(type: "float", nullable: false),
-                    IsGraded = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AssignmentSubmission", x => x.SubmissionId);
-                    table.ForeignKey(
-                        name: "FK_AssignmentSubmission_Assignments_AssignmentId",
-                        column: x => x.AssignmentId,
-                        principalTable: "Assignments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AssignmentSubmission_Students_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Students",
-                        principalColumn: "StudentId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Assignments_CourseInfoCourseId",
                 table: "Assignments",
                 column: "CourseInfoCourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssignmentSubmission_AssignmentId",
-                table: "AssignmentSubmission",
+                name: "IX_AssignmentSubmissions_AssignmentId",
+                table: "AssignmentSubmissions",
                 column: "AssignmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AssignmentSubmission_StudentId",
-                table: "AssignmentSubmission",
-                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ContentItems_ModuleId",
@@ -156,13 +163,13 @@ namespace Course.API.Migrations
                 column: "ModuleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Modules_CourseInfoCourseId",
-                table: "Modules",
-                column: "CourseInfoCourseId");
+                name: "IX_CourseStudentEnrollment_RosterStudentId",
+                table: "CourseStudentEnrollment",
+                column: "RosterStudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_CourseInfoCourseId",
-                table: "Students",
+                name: "IX_Modules_CourseInfoCourseId",
+                table: "Modules",
                 column: "CourseInfoCourseId");
         }
 
@@ -170,19 +177,22 @@ namespace Course.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AssignmentSubmission");
+                name: "AssignmentSubmissions");
 
             migrationBuilder.DropTable(
                 name: "ContentItems");
 
             migrationBuilder.DropTable(
+                name: "CourseStudentEnrollment");
+
+            migrationBuilder.DropTable(
                 name: "Assignments");
 
             migrationBuilder.DropTable(
-                name: "Students");
+                name: "Modules");
 
             migrationBuilder.DropTable(
-                name: "Modules");
+                name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Courses");
