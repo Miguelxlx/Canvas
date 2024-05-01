@@ -48,11 +48,6 @@ namespace CanvasRemake.ViewModels
             Students = await _apiService.GetStudentsAsync();
         }
 
-        public async Task RefreshDataAsync()
-        {
-            Students = await _apiService.GetStudentsAsync();
-        }
-
         private async Task OnCourseSelectedAsync(Course course)
         {
             await _navigationService.NavigateToInstructorCourseDetails(course.Code);
